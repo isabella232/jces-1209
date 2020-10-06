@@ -1,6 +1,7 @@
 package jces1209.vu
 
 import java.io.StringReader
+import java.util.*
 import javax.json.Json
 import javax.json.JsonReader
 
@@ -10,7 +11,9 @@ class TrafficDataParser {
 
         fun parseData(hostName: String, readEnvTrafficShapeConfig: String): String {
 
-            val jsonReader: JsonReader = Json.createReader(StringReader(readEnvTrafficShapeConfig))
+            val decodedBytes = Base64.getDecoder().decode(readEnvTrafficShapeConfig)
+            val decodedString = String(decodedBytes)
+            val jsonReader: JsonReader = Json.createReader(StringReader(decodedString))
             var propertiesFileName = ""
             jsonReader.use {
                 val obj: javax.json.JsonObject = jsonReader.readObject()
@@ -18,7 +21,5 @@ class TrafficDataParser {
             }
             return propertiesFileName
         }
-
-
     }
 }

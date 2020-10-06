@@ -70,6 +70,3 @@ class SlowAndMeaningful private constructor(
         }
     }
 }
-
-
-

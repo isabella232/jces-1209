@@ -3,8 +3,7 @@ package jces1209.vu
 import java.io.InputStream
 import java.util.*
 
-class ConfigProperties
-{
+class ConfigProperties {
 
     companion object {
         lateinit var properties: Properties
@@ -18,8 +17,5 @@ class ConfigProperties
             }
             return properties
         }
-
     }
-
-
 }

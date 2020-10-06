@@ -221,8 +221,8 @@ class ScenarioSimilarities(
         val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
         var properties = Properties()
 
-        if(!readTrafficShapeConfig.isNullOrEmpty()){
-            val resourceName = TrafficDataParser.parseData(jira.base.host,readTrafficShapeConfig)
+        if (!readTrafficShapeConfig.isNullOrEmpty()) {
+            val resourceName = TrafficDataParser.parseData(jira.base.host, readTrafficShapeConfig)
             properties = ConfigProperties.load(resourceName)
         }
 
@@ -238,7 +238,8 @@ class ScenarioSimilarities(
             workOnDashboard to ((properties.getProperty("action.workOnDashboard")?.toInt()) ?: 5),
             workOnSprint to ((properties.getProperty("action.workOnSprint")?.toInt()) ?: 0), // 3 if we can mutate data
             browseProjectIssues to ((properties.getProperty("action.browseProjectIssues")?.toInt()) ?: 5),
-            workOnBacklog to ((properties.getProperty("action.workOnBacklog")?.toInt()) ?: 0), // 3 if we can mutate data
+            workOnBacklog to ((properties.getProperty("action.workOnBacklog")?.toInt())
+                ?: 0), // 3 if we can mutate data
             workOnSearch to ((properties.getProperty("action.workOnSearch")?.toInt()) ?: 5),
             workOnTopBar to ((properties.getProperty("action.workOnTopBar")?.toInt()) ?: 5),
             bulkEdit to ((properties.getProperty("action.bulkEdit")?.toInt()) ?: 0), // 5 if we can mutate data
@@ -254,8 +255,5 @@ class ScenarioSimilarities(
             .flatten()
             .shuffled(seededRandom.random)
         return exploreData + spreadOut
-
-
-
     }
 }
