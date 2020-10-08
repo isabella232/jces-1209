@@ -30,6 +30,7 @@ import jces1209.vu.page.issuenavigator.IssueNavigator
 import jces1209.vu.page.project.ProjectNavigatorPage
 import java.net.URI
 import java.util.Collections
+import java.util.Properties
 
 class ScenarioSimilarities(
     private val jira: WebJira,
