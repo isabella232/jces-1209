@@ -20,10 +20,10 @@ import com.atlassian.performance.tools.awsinfrastructure.api.virtualusers.Provis
 import com.atlassian.performance.tools.infrastructure.api.virtualusers.DirectResultsTransport
 import com.atlassian.performance.tools.io.api.dereference
 import com.atlassian.performance.tools.io.api.ensureDirectory
-import jces1209.vu.ConfigProperties
 import java.nio.file.Path
 import java.time.Duration
 import java.util.Properties
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 class AwsVus(
