@@ -5,7 +5,7 @@ import com.atlassian.performance.tools.virtualusers.api.VirtualUserLoad
 import com.atlassian.performance.tools.virtualusers.api.config.VirtualUserBehavior
 import jces1209.vu.Firefox
 import java.time.Duration
-import java.util.*
+import java.util.Properties
 
 class QuickAndDirty : BenchmarkQuality {
 

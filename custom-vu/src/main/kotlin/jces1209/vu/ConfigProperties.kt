@@ -1,7 +1,7 @@
 package jces1209.vu
 
 import java.io.InputStream
-import java.util.*
+import java.util.Properties
 
 class ConfigProperties {
 

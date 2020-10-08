@@ -2,7 +2,8 @@ package jces1209
 
 import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import com.atlassian.performance.tools.virtualusers.api.config.VirtualUserBehavior
-import java.util.*
+import java.util.Properties
+
 
 interface BenchmarkQuality {
 

@@ -8,7 +8,7 @@ import com.atlassian.performance.tools.virtualusers.api.browsers.Browser
 import com.atlassian.performance.tools.virtualusers.api.config.VirtualUserBehavior
 import jces1209.vu.EagerChromeBrowser
 import java.time.Duration
-import java.util.*
+import java.util.Properties
 
 class SlowAndMeaningful private constructor(
     private val browser: Class<out Browser>,
@@ -35,14 +35,11 @@ class SlowAndMeaningful private constructor(
         var virtualUser = 72
         var ramp = 1L
         var maxOverallLoad = 15.0
-
         if (null != trafficConfigObj) {
-
             virtualUser = trafficConfigObj.getProperty("setting.virtualUsers")?.toInt() ?: 72
             ramp = trafficConfigObj.getProperty("setting.rampInMinute")?.toLong() ?: 1
             maxOverallLoad = trafficConfigObj.getProperty("setting.maxOverallLoad")?.toDouble() ?: 15.0
         }
-
         return VirtualUserLoad.Builder()
             .virtualUsers(virtualUser)
             .ramp(Duration.ofMinutes(ramp))
@@ -54,8 +51,8 @@ class SlowAndMeaningful private constructor(
     class Builder {
         private var browser: Class<out Browser> = EagerChromeBrowser::class.java
         private var region: Regions = Regions.US_EAST_1
-        private var duration: Duration = System.getenv("duration").takeUnless { it.isNullOrEmpty() }?.toLong()?.let { Duration.ofMinutes(it) }
-            ?:Duration.ofMinutes(20)
+        private var duration: Duration = System.getenv("duration")
+            .takeUnless { it.isNullOrEmpty() }?.toLong()?.let { Duration.ofMinutes(it) } ?: Duration.ofMinutes(20)
 
         fun browser(browser: Class<out Browser>) = apply { this.browser = browser }
         fun region(region: Regions) = apply { this.region = region }

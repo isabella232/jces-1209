@@ -23,7 +23,7 @@ import com.atlassian.performance.tools.io.api.ensureDirectory
 import jces1209.vu.ConfigProperties
 import java.nio.file.Path
 import java.time.Duration
-import java.util.*
+import java.util.Properties
 import java.util.concurrent.CompletableFuture
 
 class AwsVus(
