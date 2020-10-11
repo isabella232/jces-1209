@@ -39,7 +39,7 @@ class LogInWithAtlassianId(
 
     private fun logIn() {
         jira.goToLogin()
-        Thread.sleep((Math.random() * 240000 + 120000L).toLong())
+        Thread.sleep((Math.random() * 300000 + 300000L).toLong())
         fillUserName()
         fillPassword()
         chooseAccount()
