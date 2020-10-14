@@ -2,6 +2,8 @@ package jces1209.vu.action
 
 import com.atlassian.performance.tools.jiraactions.api.*
 import com.atlassian.performance.tools.jiraactions.api.action.Action
+import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
+import jces1209.vu.ConfigProperties
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
 import jces1209.vu.MeasureType.Companion.ATTACH_SCREENSHOT
@@ -12,6 +14,7 @@ import jces1209.vu.MeasureType.Companion.ISSUE_LINK_LOAD_FORM
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SEARCH_CHOOSE
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SUBMIT
 import jces1209.vu.MeasureType.Companion.OPEN_MEDIA_VIEWER
+import jces1209.vu.TrafficDataParser
 import jces1209.vu.page.AbstractIssuePage
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -20,27 +23,34 @@ import org.apache.logging.log4j.Logger
  * Works for both Cloud and Data Center.
  */
 class WorkOnIssue(
-        private val issuePage: AbstractIssuePage,
-        private val jira: WebJira,
-        private val measure: Measure,
-        private val issueKeyMemory: String,
-        private val editProbability: Float,
-        private val commentProbability: Float,
-        private val linkIssueProbability: Float,
-        private val attachScreenShotProbability: Float,
-        private val changeAssigneeProbability: Float,
-        private val mentionUserProbability: Float,
-        private val contextOperationProbability: Float,
-        private val transitionProbability: Float
+    private val issuePage: AbstractIssuePage,
+    private val jira: WebJira,
+    private val measure: Measure,
+    private val issueKeyMemory: IssueKeyMemory,
+    private val editProbability: Float,
+    private val commentProbability: Float,
+    private val linkIssueProbability: Float,
+    private val attachScreenShotProbability: Float,
+    private val changeAssigneeProbability: Float,
+    private val mentionUserProbability: Float,
+    private val contextOperationProbability: Float,
+    private val transitionProbability: Float
 ) : Action {
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-        val issueKey = issueKeyMemory
+        var issueKey = issueKeyMemory.recall()
+        if (issueKey == null && getIssueKeyMemoryIds().isNotEmpty()) {
+            issueKeyMemory.remember(mutableSetOf())
+            issueKeyMemory.remember(getIssueKeyMemoryIds())
+        }
+        issueKey = issueKeyMemory.recall()
+
         if (issueKey == null) {
             logger.debug("I don't recall any issue keys. Maybe next time I will.")
             return
         }
+
         val loadedIssuePage = read(issueKey)
         if (null != loadedIssuePage) {
             editDescription(loadedIssuePage)
@@ -168,5 +178,20 @@ class WorkOnIssue(
                 }
             }
         }
+    }
+
+    private fun getIssueKeyMemoryIds() : List<String> {
+        var issueKeyMemoryIdsList: List<String> = listOf()
+        val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
+
+        if (!readTrafficShapeConfig.isNullOrEmpty()) {
+            val resourceName = TrafficDataParser.parseData(jira.base.host, readTrafficShapeConfig)
+            val properties = ConfigProperties.load(resourceName)
+
+            val issueKeyMemoryIds: String = properties.getProperty("action.issueKeyMemoryIds")
+            issueKeyMemoryIdsList = issueKeyMemoryIds.split(",").map { it.trim() }
+        }
+
+        return issueKeyMemoryIdsList
     }
 }

@@ -3,6 +3,7 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.ActionType
 import com.atlassian.performance.tools.jiraactions.api.VIEW_BOARD
 import com.atlassian.performance.tools.jiraactions.api.action.Action
+import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
 import com.atlassian.performance.tools.jiraactions.api.observation.IssuesOnBoard
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
@@ -17,14 +18,14 @@ import org.apache.logging.log4j.Logger
 import org.openqa.selenium.WebDriver
 
 class ViewBoard(
-        private val driver: WebDriver,
-        private val measure: Measure,
-        private val boardsMemory: SeededMemory<BoardPage>,
-        private val issueKeyMemory: String,
-        private val viewIssueProbability: Float,
-        private val configureBoardProbability: Float,
-        private val contextOperationProbability: Float,
-        private val changeIssueStatusProbability: Float
+    private val driver: WebDriver,
+    private val measure: Measure,
+    private val boardsMemory: SeededMemory<BoardPage>,
+    private val issueKeyMemory: IssueKeyMemory,
+    private val viewIssueProbability: Float,
+    private val configureBoardProbability: Float,
+    private val contextOperationProbability: Float,
+    private val changeIssueStatusProbability: Float
 ) : Action {
     private val logger: Logger = LogManager.getLogger(this::class.java)
     private val jiraTips = JiraTips(driver)
@@ -59,7 +60,7 @@ class ViewBoard(
             measure.measure(ActionType("View Board ($boardType)") { Unit },
                 isSilent = false,
                 observation = {
-                  //  issueKeyMemory.remember(it.getIssueKeys())
+                    issueKeyMemory.remember(it.getIssueKeys())
                     IssuesOnBoard(it.getIssueCount()).serialize()
                 }
             ) {

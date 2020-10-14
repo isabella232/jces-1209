@@ -3,6 +3,7 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.SEARCH_WITH_JQL
 import com.atlassian.performance.tools.jiraactions.api.WebJira
 import com.atlassian.performance.tools.jiraactions.api.action.Action
+import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.JqlMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.Memory
 import com.atlassian.performance.tools.jiraactions.api.observation.SearchJqlObservation
@@ -18,19 +19,19 @@ import java.net.URI
 import javax.json.JsonObject
 
 class WorkOnSearch(
-        private val issueNavigator: IssueNavigator,
-        private val jira: WebJira,
-        private val measure: Measure,
-        private val columnsEditor: ColumnsEditor,
-        private val filters: Memory<URI>,
-        private val jqlMemory: JqlMemory,
-        private val issueKeyMemory: String,
-        private val searchFilterProbability: Float,
-        private val searchJclProbability: Float,
-        private val globalSearchProbability: Float,
-        private val customizeColumnsProbability: Float,
-        private val subscribeToFilterProbability: Float,
-        private val switchBetweenIssuesProbability: Float
+    private val issueNavigator: IssueNavigator,
+    private val jira: WebJira,
+    private val measure: Measure,
+    private val columnsEditor: ColumnsEditor,
+    private val filters: Memory<URI>,
+    private val jqlMemory: JqlMemory,
+    private val issueKeyMemory: IssueKeyMemory,
+    private val searchFilterProbability: Float,
+    private val searchJclProbability: Float,
+    private val globalSearchProbability: Float,
+    private val customizeColumnsProbability: Float,
+    private val subscribeToFilterProbability: Float,
+    private val switchBetweenIssuesProbability: Float
 ) : Action {
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
@@ -123,7 +124,7 @@ class WorkOnSearch(
                 SEARCH_WITH_JQL,
                 observation = fun(navigator: IssueNavigatorPage): JsonObject {
                     val issueKeys = navigator.getIssueKeys()
-                  //  issueKeyMemory.remember(issueKeys)
+                    issueKeyMemory.remember(issueKeys)
                     return SearchJqlObservation(
                         navigator.jql,
                         issueKeys.size,
