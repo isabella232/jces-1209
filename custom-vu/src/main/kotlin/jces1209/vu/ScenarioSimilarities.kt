@@ -219,6 +219,10 @@ class ScenarioSimilarities(
         browseIssueTypes: Action,
         browseProjectRoles: Action
     ): List<Action> {
+        
+        println("IssueKeyMemory")
+        println(issueKeyMemory.recall())
+        
         val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
         var properties = Properties()
 
