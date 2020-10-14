@@ -2,7 +2,6 @@ package jces1209.vu.action
 
 import com.atlassian.performance.tools.jiraactions.api.*
 import com.atlassian.performance.tools.jiraactions.api.action.Action
-import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
 import jces1209.vu.MeasureType.Companion.ATTACH_SCREENSHOT
@@ -21,23 +20,23 @@ import org.apache.logging.log4j.Logger
  * Works for both Cloud and Data Center.
  */
 class WorkOnIssue(
-    private val issuePage: AbstractIssuePage,
-    private val jira: WebJira,
-    private val measure: Measure,
-    private val issueKeyMemory: IssueKeyMemory,
-    private val editProbability: Float,
-    private val commentProbability: Float,
-    private val linkIssueProbability: Float,
-    private val attachScreenShotProbability: Float,
-    private val changeAssigneeProbability: Float,
-    private val mentionUserProbability: Float,
-    private val contextOperationProbability: Float,
-    private val transitionProbability: Float
+        private val issuePage: AbstractIssuePage,
+        private val jira: WebJira,
+        private val measure: Measure,
+        private val issueKeyMemory: String,
+        private val editProbability: Float,
+        private val commentProbability: Float,
+        private val linkIssueProbability: Float,
+        private val attachScreenShotProbability: Float,
+        private val changeAssigneeProbability: Float,
+        private val mentionUserProbability: Float,
+        private val contextOperationProbability: Float,
+        private val transitionProbability: Float
 ) : Action {
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-        val issueKey = issueKeyMemory.recall()
+        val issueKey = issueKeyMemory
         if (issueKey == null) {
             logger.debug("I don't recall any issue keys. Maybe next time I will.")
             return

@@ -5,7 +5,6 @@ import com.atlassian.performance.tools.jiraactions.api.WebJira
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.action.ProjectSummaryAction
 import com.atlassian.performance.tools.jiraactions.api.measure.ActionMeter
-import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveIssueKeyMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveJqlMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveProjectMemory
 import jces1209.vu.action.*
@@ -40,7 +39,7 @@ class ScenarioSimilarities(
     val measure = Measure(meter, seededRandom)
     val jqlMemory = AdaptiveJqlMemory(seededRandom)
         .also { it.remember(listOf("order by created DESC")) } // work around https://ecosystem.atlassian.net/browse/JPERF-573
-    val issueKeyMemory = AdaptiveIssueKeyMemory(seededRandom)
+    val issueKeyMemory = "AASAEA-411"
     val projectMemory = AdaptiveProjectMemory(seededRandom)
     val filtersMemory = SeededMemory<URI>(seededRandom)
     val boardsMemory = BoardPagesMemory(seededRandom)
@@ -221,7 +220,7 @@ class ScenarioSimilarities(
     ): List<Action> {
         
         println("IssueKeyMemory")
-        println(issueKeyMemory.recall())
+       // println(issueKeyMemory.recall())
         
         val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
         var properties = Properties()
