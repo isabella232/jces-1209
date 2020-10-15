@@ -3,6 +3,7 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.*
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
+import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveIssueKeyMemory
 import jces1209.vu.ConfigProperties
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
@@ -26,7 +27,8 @@ class WorkOnIssue(
     private val issuePage: AbstractIssuePage,
     private val jira: WebJira,
     private val measure: Measure,
-    private val issueKeyMemory: IssueKeyMemory,
+    private var issueKeyMemory: IssueKeyMemory,
+    private val seededRandom: SeededRandom,
     private val editProbability: Float,
     private val commentProbability: Float,
     private val linkIssueProbability: Float,
@@ -39,13 +41,14 @@ class WorkOnIssue(
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-        var issueKey = issueKeyMemory.recall()
-        if (issueKey == null && getIssueKeyMemoryIds().isNotEmpty()) {
-            issueKeyMemory.remember(mutableSetOf())
-            issueKeyMemory.remember(getIssueKeyMemoryIds())
-        }
-        issueKey = issueKeyMemory.recall()
 
+        val issueKeyMemoryIdsList: List<String> = getIssueKeyMemoryIds()
+        if(issueKeyMemoryIdsList.isNotEmpty()){
+            issueKeyMemory = AdaptiveIssueKeyMemory(seededRandom)
+            issueKeyMemory.remember(issueKeyMemoryIdsList)
+        }
+
+        val issueKey = issueKeyMemory.recall()
         if (issueKey == null) {
             logger.debug("I don't recall any issue keys. Maybe next time I will.")
             return
