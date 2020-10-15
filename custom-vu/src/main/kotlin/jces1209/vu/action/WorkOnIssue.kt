@@ -3,6 +3,8 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.*
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
+import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveIssueKeyMemory
+import jces1209.vu.ConfigProperties
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
 import jces1209.vu.MeasureType.Companion.ATTACH_SCREENSHOT
@@ -13,6 +15,7 @@ import jces1209.vu.MeasureType.Companion.ISSUE_LINK_LOAD_FORM
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SEARCH_CHOOSE
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SUBMIT
 import jces1209.vu.MeasureType.Companion.OPEN_MEDIA_VIEWER
+import jces1209.vu.TrafficDataParser
 import jces1209.vu.page.AbstractIssuePage
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -24,7 +27,8 @@ class WorkOnIssue(
     private val issuePage: AbstractIssuePage,
     private val jira: WebJira,
     private val measure: Measure,
-    private val issueKeyMemory: IssueKeyMemory,
+    private var issueKeyMemory: IssueKeyMemory,
+    private val seededRandom: SeededRandom,
     private val editProbability: Float,
     private val commentProbability: Float,
     private val linkIssueProbability: Float,
@@ -37,6 +41,13 @@ class WorkOnIssue(
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
+
+        val issueKeyMemoryIdsList: List<String> = getIssueKeyMemoryIds()
+        if(issueKeyMemoryIdsList.isNotEmpty()){
+            issueKeyMemory = AdaptiveIssueKeyMemory(seededRandom)
+            issueKeyMemory.remember(issueKeyMemoryIdsList)
+        }
+
         val issueKey = issueKeyMemory.recall()
         if (issueKey == null) {
             logger.debug("I don't recall any issue keys. Maybe next time I will.")
@@ -169,5 +180,19 @@ class WorkOnIssue(
                 }
             }
         }
+    }
+
+    private fun getIssueKeyMemoryIds() : List<String> {
+        var issueKeyMemoryIdsList: List<String> = listOf()
+        val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
+
+        if (!readTrafficShapeConfig.isNullOrEmpty()) {
+            val resourceName = TrafficDataParser.parseData(jira.base.host, readTrafficShapeConfig)
+            val properties = ConfigProperties.load(resourceName)
+
+            val issueKeyMemoryIds: String = properties.getProperty("action.issueKeyMemoryIds")
+            issueKeyMemoryIdsList = issueKeyMemoryIds.split(",").map { it.trim() }
+        }
+        return issueKeyMemoryIdsList
     }
 }

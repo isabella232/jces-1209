@@ -83,6 +83,7 @@ class ScenarioSimilarities(
             jira = jira,
             measure = measure,
             issueKeyMemory = issueKeyMemory,
+            seededRandom = seededRandom,
             editProbability = 0.00f, // 0.10f if we can mutate data
             commentProbability = 0.00f, // 0.04f if we can mutate data
             linkIssueProbability = 0.00f, // 0.10f if we can mutate data
@@ -227,7 +228,7 @@ class ScenarioSimilarities(
             properties = ConfigProperties.load(resourceName)
         }
 
-        val exploreData = listOf(browseProjects, browseFilters, browseBoards, workAnIssue)
+        val exploreData = listOf(workAnIssue, browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
             createIssue to ((properties.getProperty("action.createIssue")?.toInt()) ?: 0), // 5 if we can mutate data
             workAnIssue to ((properties.getProperty("action.workAnIssue")?.toInt()) ?: 55),

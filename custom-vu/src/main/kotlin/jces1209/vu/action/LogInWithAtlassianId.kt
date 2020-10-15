@@ -11,7 +11,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import java.time.Duration
-import java.util.*
+import java.util.Random
 
 /**
  * Logs in via Atlassian ID.
@@ -39,7 +39,7 @@ class LogInWithAtlassianId(
 
     private fun logIn() {
         jira.goToLogin()
-        Thread.sleep(Random().nextInt(300000)+300000L)
+        Thread.sleep(Random().nextInt(Duration.ofMinutes(5).toMillis().toInt()).plus(Duration.ofMinutes(5).toMillis()))
         fillUserName()
         fillPassword()
         chooseAccount()
