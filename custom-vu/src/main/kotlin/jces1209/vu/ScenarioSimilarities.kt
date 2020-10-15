@@ -229,7 +229,7 @@ class ScenarioSimilarities(
             properties = ConfigProperties.load(resourceName)
         }
 
-        val exploreData = listOf(browseProjects, browseFilters, browseBoards, workAnIssue)
+        val exploreData = listOf(workAnIssue, browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
             createIssue to ((properties.getProperty("action.createIssue")?.toInt()) ?: 0), // 5 if we can mutate data
             workAnIssue to ((properties.getProperty("action.workAnIssue")?.toInt()) ?: 55),
