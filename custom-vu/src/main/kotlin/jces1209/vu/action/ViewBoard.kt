@@ -5,14 +5,14 @@ import com.atlassian.performance.tools.jiraactions.api.VIEW_BOARD
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
 import com.atlassian.performance.tools.jiraactions.api.observation.IssuesOnBoard
-import jces1209.vu.Measure
-import jces1209.vu.MeasureType
+import jces1209.vu.*
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.JiraTips
 import jces1209.vu.page.boards.view.BoardContent
 import jces1209.vu.page.boards.view.BoardPage
 import jces1209.vu.page.boards.view.KanbanBoardPage
 import jces1209.vu.page.contextoperation.ContextOperationBoard
+import jces1209.vu.utils.CsvBoardsReader
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.openqa.selenium.WebDriver
@@ -31,7 +31,7 @@ class ViewBoard(
     private val jiraTips = JiraTips(driver)
 
     override fun run() {
-        val board = boardsMemory.recall()
+        val board = getBoard()
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
@@ -128,6 +128,16 @@ class ViewBoard(
                     }
                 }
             }
+        }
+    }
+
+    private fun getBoard(): BoardPage? {
+        val currentUrl = driver.currentUrl
+        val csvReader = CsvBoardsReader(driver, logger)
+        if (csvReader.getBoardsListFromCsv() != null && currentUrl.contains("atlassian.net")) {
+                return csvReader.getBoardsListFromCsv()!!.shuffled()[0]
+        } else {
+            return boardsMemory.recall()
         }
     }
 }
