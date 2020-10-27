@@ -53,6 +53,11 @@ class JiraCloudScenario : Scenario {
 
         val similarities = ScenarioSimilarities(jira, seededRandom, meter)
         return similarities.assembleScenario(
+            createIssue = CreateAnIssue(
+                jira = jira,
+                meter = meter,
+                createIssueButtons = listOf(By.id("createGlobalItem"), By.id("createGlobalItemIconButton"))
+            ),
             issuePage = CloudIssuePage(jira.driver),
             filtersPage = CloudFiltersPage(jira, jira.driver),
             browseFieldScreensPage = CloudBrowseFieldScreensPage(jira),
@@ -62,12 +67,6 @@ class JiraCloudScenario : Scenario {
             dashboardPage = CloudDashboardPage(jira),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
-            createIssue = CreateAnIssue(
-                jira = jira,
-                meter = meter,
-                projectMemory = similarities.projectMemory,
-                createIssueButtons = listOf(By.id("createGlobalItem"), By.id("createGlobalItemIconButton"))
-            ),
             browseProjects = BrowseCloudProjects(
                 jira = jira,
                 meter = meter,

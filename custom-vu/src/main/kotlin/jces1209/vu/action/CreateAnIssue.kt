@@ -5,7 +5,6 @@ import com.atlassian.performance.tools.jiraactions.api.CREATE_ISSUE_SUBMIT
 import com.atlassian.performance.tools.jiraactions.api.WebJira
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.measure.ActionMeter
-import com.atlassian.performance.tools.jiraactions.api.memories.ProjectMemory
 import com.atlassian.performance.tools.jiraactions.api.page.form.IssueForm
 import com.atlassian.performance.tools.jiraactions.api.page.wait
 import jces1209.vu.MeasureType.Companion.CREATE_ISSUE_MODAL
@@ -19,17 +18,11 @@ import java.time.Duration
 class CreateAnIssue(
     private val jira: WebJira,
     private val meter: ActionMeter,
-    private val projectMemory: ProjectMemory,
     private val createIssueButtons: List<By>
 ) : Action {
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-        val project = projectMemory.recall()
-        if (project == null) {
-            logger.debug("Skipping Create issue action. I have no knowledge of projects.")
-            return
-        }
         meter.measure(CREATE_ISSUE) {
             jira.goToDashboard().dismissAllPopups()
             openDialog().fillRequiredFields() // TODO: to be fair, we should pick a random project and random issue type

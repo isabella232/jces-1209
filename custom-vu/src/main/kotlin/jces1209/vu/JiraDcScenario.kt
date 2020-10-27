@@ -62,7 +62,6 @@ class JiraDcScenario : Scenario {
             createIssue = CreateAnIssue(
                 jira = jira,
                 meter = meter,
-                projectMemory = similarities.projectMemory,
                 createIssueButtons = listOf(By.id("create_link"))
             ),
             browseProjects = BrowseProjectsAction(
