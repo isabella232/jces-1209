@@ -9,6 +9,7 @@ import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import jces1209.vu.action.BrowseCloudProjects
 import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInWithAtlassianId
+import jces1209.vu.api.issue.CloudIssueApi
 import jces1209.vu.page.issuenavigator.CloudIssueNavigator
 import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
@@ -66,6 +67,7 @@ class JiraCloudScenario : Scenario {
                 jira = jira,
                 meter = meter,
                 projectMemory = similarities.projectMemory,
+                issueApi = CloudIssueApi(jira.base),
                 createIssueButtons = listOf(By.id("createGlobalItem"), By.id("createGlobalItemIconButton"))
             ),
             browseProjects = BrowseCloudProjects(

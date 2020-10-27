@@ -9,13 +9,13 @@ import com.atlassian.performance.tools.jiraactions.api.memories.UserMemory
 import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInToDc
-import jces1209.vu.page.issuenavigator.DcIssueNavigator
+import jces1209.vu.api.issue.DcIssueApi
 import jces1209.vu.page.DcIssuePage
-import jces1209.vu.page.admin.projectroles.DcBrowseProjectRolesPage
 import jces1209.vu.page.admin.customfields.DcBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.DcBrowseFieldScreensPage
 import jces1209.vu.page.admin.issuetypes.DcBrowseIssueTypesPage
 import jces1209.vu.page.admin.manageprojects.DcManageProjectsPage
+import jces1209.vu.page.admin.projectroles.DcBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.DcBrowseWorkflowsPage
 import jces1209.vu.page.bars.side.DcSideBar
 import jces1209.vu.page.bars.topBar.dc.DcTopBar
@@ -23,6 +23,7 @@ import jces1209.vu.page.boards.browse.dc.DcBrowseBoardsPage
 import jces1209.vu.page.customizecolumns.DcColumnsEditor
 import jces1209.vu.page.dashboard.dc.DcDashboardPage
 import jces1209.vu.page.filters.ServerFiltersPage
+import jces1209.vu.page.issuenavigator.DcIssueNavigator
 import jces1209.vu.page.project.DcProjectNavigatorPage
 import org.openqa.selenium.By
 import org.openqa.selenium.TakesScreenshot
@@ -63,6 +64,7 @@ class JiraDcScenario : Scenario {
                 jira = jira,
                 meter = meter,
                 projectMemory = similarities.projectMemory,
+                issueApi = DcIssueApi(jira.base),
                 createIssueButtons = listOf(By.id("create_link"))
             ),
             browseProjects = BrowseProjectsAction(
