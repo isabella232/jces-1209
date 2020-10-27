@@ -46,6 +46,7 @@ class ScenarioSimilarities(
     val boardsMemory = BoardPagesMemory(seededRandom)
 
     fun assembleScenario(
+        createIssue: Action,
         issuePage: AbstractIssuePage,
         filtersPage: FiltersPage,
         browseWorkflowsPage: BrowseWorkflowsPage,
@@ -53,7 +54,6 @@ class ScenarioSimilarities(
         browseCustomFieldsPage: BrowseCustomFieldsPage,
         browseBoardsPage: BrowseBoardsPage,
         dashboardPage: DashboardPage,
-        createIssue: Action,
         browseProjects: Action,
         issueNavigator: IssueNavigator,
         columnsEditor: ColumnsEditor,
@@ -229,7 +229,7 @@ class ScenarioSimilarities(
             properties = ConfigProperties.load(resourceName)
         }
 
-        val exploreData = listOf(workAnIssue, browseProjects, browseFilters, browseBoards)
+        val exploreData = listOf(createIssue, workAnIssue, browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
             createIssue to ((properties.getProperty("action.createIssue")?.toInt()) ?: 0), // 5 if we can mutate data
             workAnIssue to ((properties.getProperty("action.workAnIssue")?.toInt()) ?: 55),
