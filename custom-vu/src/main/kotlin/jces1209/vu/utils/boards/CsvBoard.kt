@@ -1,4 +1,4 @@
-package jces1209.vu.utils
+package jces1209.vu.utils.boards
 
 import java.net.URI
 

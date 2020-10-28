@@ -11,8 +11,13 @@ import jces1209.vu.page.JiraTips
 import jces1209.vu.page.boards.view.BoardContent
 import jces1209.vu.page.boards.view.BoardPage
 import jces1209.vu.page.boards.view.KanbanBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudKanbanBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudNextGenBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudScrumBacklogPage
+import jces1209.vu.page.boards.view.cloud.CloudScrumSprintPage
 import jces1209.vu.page.contextoperation.ContextOperationBoard
-import jces1209.vu.utils.CsvBoardsReader
+import jces1209.vu.utils.boards.BoardsFrequencyManager
+import jces1209.vu.utils.boards.CsvBoardsReader
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.openqa.selenium.WebDriver
@@ -31,11 +36,16 @@ class ViewBoard(
     private val jiraTips = JiraTips(driver)
 
     override fun run() {
+        val startTime = System.currentTimeMillis()
         val board = getBoard()
+        val finishTime = System.currentTimeMillis()
+        println("Board generation took ${finishTime - startTime}")
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
         }
+        println("Current board uri is ${board.uri}")
+        println("Current board type is ${board.getTypeLabel()}")
         val boardType = board.getTypeLabel()
         val boardContent = viewBoard(boardType, board)
 
@@ -133,10 +143,22 @@ class ViewBoard(
 
     private fun getBoard(): BoardPage? {
         val currentUrl = driver.currentUrl
-        val csvReader = CsvBoardsReader(driver, logger)
-        if (csvReader.getBoardsListFromCsv() != null && currentUrl.contains("atlassian.net")) {
-                return csvReader.getBoardsListFromCsv()!!.shuffled()[0]
+        val boardsManager = BoardsFrequencyManager()
+        val boardObject = boardsManager.getBoardByFrequency()
+        if (boardObject != null && currentUrl.contains("atlassian.net")) {
+            val boardPage = with(boardObject.boardType) {
+                when {
+                    contains("backlog") -> CloudScrumBacklogPage(driver, boardObject.uri)
+                    contains("sprint") -> CloudScrumSprintPage(driver, boardObject.uri)
+                    contains("kanban") ->  CloudKanbanBoardPage(driver, boardObject.uri)
+                    contains("next") ->  CloudNextGenBoardPage(driver, boardObject.uri)
+                    else -> logger.debug("I cannot parse the board")
+                }
+            }
+            println("Returning board from csv")
+            return boardPage as BoardPage
         } else {
+            println("Returning board from memory")
             return boardsMemory.recall()
         }
     }
