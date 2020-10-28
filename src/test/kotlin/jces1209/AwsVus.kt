@@ -3,7 +3,6 @@ package jces1209
 import com.amazonaws.auth.AWSCredentialsProviderChain
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper
-import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.regions.Regions
 import com.amazonaws.regions.Regions.*
@@ -95,10 +94,6 @@ class AwsVus(
     private fun prepareAws() = Aws.Builder(region)
         .credentialsProvider(
             AWSCredentialsProviderChain(
-                STSAssumeRoleSessionCredentialsProvider.Builder(
-                    "arn:aws:iam::695067801333:role/server-gdn-bamboo",
-                    UUID.randomUUID().toString()
-                ).build(),
                 ProfileCredentialsProvider("jpt-dev"),
                 EC2ContainerCredentialsProviderWrapper(),
                 DefaultAWSCredentialsProviderChain()
