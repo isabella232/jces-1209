@@ -9,6 +9,7 @@ import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.Adaptiv
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveJqlMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveProjectMemory
 import jces1209.vu.action.*
+import jces1209.vu.api.dashboard.DashboardApi
 import jces1209.vu.memory.BoardPagesMemory
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.AbstractIssuePage
@@ -53,6 +54,7 @@ class ScenarioSimilarities(
         browseCustomFieldsPage: BrowseCustomFieldsPage,
         browseBoardsPage: BrowseBoardsPage,
         dashboardPage: DashboardPage,
+        dashboardApi: DashboardApi,
         createIssue: Action,
         browseProjects: Action,
         issueNavigator: IssueNavigator,
@@ -74,6 +76,7 @@ class ScenarioSimilarities(
             measure = measure,
             projectKeyMemory = projectMemory,
             dashboardPage = dashboardPage,
+            dashboardApi = dashboardApi,
             viewDashboardsProbability = 1.00f,
             viewDashboardProbability = 1.00f,
             createDashboardAndGadgetProbability = 0.00f // 0.10f if we can mutate data

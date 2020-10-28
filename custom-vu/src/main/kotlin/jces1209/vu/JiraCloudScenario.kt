@@ -9,13 +9,18 @@ import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import jces1209.vu.action.BrowseCloudProjects
 import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInWithAtlassianId
+<<<<<<< HEAD
 import jces1209.vu.page.issuenavigator.CloudIssueNavigator
+=======
+import jces1209.vu.api.dashboard.CloudDashboardApi
+import jces1209.vu.api.issue.CloudIssueApi
+>>>>>>> 444dcad... JCSP-553: dashboard clean up (#101)
 import jces1209.vu.page.CloudIssuePage
-import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
 import jces1209.vu.page.admin.customfields.CloudBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.CloudBrowseFieldScreensPage
 import jces1209.vu.page.admin.issuetypes.CloudBrowseIssueTypesPage
 import jces1209.vu.page.admin.manageprojects.CloudManageProjectsPage
+import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.CloudBrowseWorkflowsPage
 import jces1209.vu.page.bars.side.CloudSideBar
 import jces1209.vu.page.bars.topBar.dc.DcTopBar
@@ -23,6 +28,7 @@ import jces1209.vu.page.boards.browse.cloud.CloudBrowseBoardsPage
 import jces1209.vu.page.customizecolumns.CloudColumnsEditor
 import jces1209.vu.page.dashboard.cloud.CloudDashboardPage
 import jces1209.vu.page.filters.CloudFiltersPage
+import jces1209.vu.page.issuenavigator.CloudIssueNavigator
 import jces1209.vu.page.project.CloudProjectNavigatorPage
 import org.openqa.selenium.By
 import org.openqa.selenium.TakesScreenshot
@@ -65,6 +71,7 @@ class JiraCloudScenario : Scenario {
             browseCustomFieldsPage = CloudBrowseCustomFieldsPage(jira),
             browseBoardsPage = CloudBrowseBoardsPage(jira),
             dashboardPage = CloudDashboardPage(jira),
+            dashboardApi = CloudDashboardApi(jira.base),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
             browseProjects = BrowseCloudProjects(

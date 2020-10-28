@@ -9,7 +9,12 @@ import com.atlassian.performance.tools.jiraactions.api.memories.UserMemory
 import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInToDc
+<<<<<<< HEAD
 import jces1209.vu.page.issuenavigator.DcIssueNavigator
+=======
+import jces1209.vu.api.dashboard.DcDashboardApi
+import jces1209.vu.api.issue.DcIssueApi
+>>>>>>> 444dcad... JCSP-553: dashboard clean up (#101)
 import jces1209.vu.page.DcIssuePage
 import jces1209.vu.page.admin.projectroles.DcBrowseProjectRolesPage
 import jces1209.vu.page.admin.customfields.DcBrowseCustomFieldsPage
@@ -57,6 +62,7 @@ class JiraDcScenario : Scenario {
             browseCustomFieldsPage = DcBrowseCustomFieldsPage(jira),
             browseBoardsPage = DcBrowseBoardsPage(jira),
             dashboardPage = DcDashboardPage(jira),
+            dashboardApi = DcDashboardApi(jira.base),
             manageProjectsPage = DcManageProjectsPage(jira),
             projectNavigatorPage = DcProjectNavigatorPage(jira),
             createIssue = CreateAnIssue(
