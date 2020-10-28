@@ -5,17 +5,12 @@ import java.util.*
 class BoardsFrequencyManager {
 
     fun getBoardByFrequency(): CsvBoard? {
-        val boardsList = getBoardsObjects()
+        val boardsList = CsvBoardsReader.boardsList
         if (boardsList != null && boardsList.size > 0) {
             return defineFrequentBoard(boardsList)
         } else {
             return null
         }
-    }
-
-    private fun getBoardsObjects(): MutableList<CsvBoard>? {
-        val csvReader = CsvBoardsReader()
-        return csvReader.getBoardsFromCsv()
     }
 
     private fun defineFrequentBoard(boardsList: MutableList<CsvBoard>): CsvBoard {

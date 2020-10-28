@@ -5,9 +5,15 @@ import org.apache.logging.log4j.Logger
 import java.lang.IllegalStateException
 import java.net.URI
 
-class CsvBoardsReader {
+object CsvBoardsReader {
+
+    var boardsList: MutableList<CsvBoard>?
     private val logger: Logger = LogManager.getLogger(this::class.java)
     private val csvPropertyFile = "BoardUsageFrequency.csv"
+
+    init {
+        this.boardsList = getBoardsFromCsv()
+    }
 
     fun getBoardsFromCsv(): MutableList<CsvBoard>? {
         val csvBoardsList = readBoardsFromCsv()
@@ -20,6 +26,7 @@ class CsvBoardsReader {
     }
 
     private fun readBoardsFromCsv(): MutableList<CsvBoard> {
+        println("Initiating Boards Reader")
         val boardsFromCsv = mutableListOf<CsvBoard>()
         var csvContent = String()
         try {
