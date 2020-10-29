@@ -5,17 +5,17 @@ import java.util.*
 class BoardsFrequencyManager {
 
     private val boardsFromCsv = CsvBoardsReader.csvContent
-    private val totalWeight = calculateTotalBoardWeight()
+    private val boardsTotalWeight = calculateTotalBoardWeight()
 
     fun getBoardByFrequency(): CsvBoard? {
         if (boardsFromCsv != null && boardsFromCsv.size > 0) {
-            return defineFrequentBoard(boardsFromCsv)
+            return defineFrequentBoard(boardsFromCsv, boardsTotalWeight)
         } else {
             return null
         }
     }
 
-    private fun defineFrequentBoard(boardsList: MutableList<CsvBoard>?): CsvBoard? {
+    private fun defineFrequentBoard(boardsList: MutableList<CsvBoard>?, totalWeight: Float): CsvBoard? {
         //defining a default fallback board from the csv list in case the random frequent board is not generated
         var resultBoard = boardsList?.get(Random().nextInt(boardsList.size))
         val random = Random().nextFloat() * totalWeight
