@@ -11,6 +11,7 @@ import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInToDc
 import jces1209.vu.api.dashboard.DcDashboardApi
 import jces1209.vu.api.issue.DcIssueApi
+import jces1209.vu.api.sprint.DcSprintApi
 import jces1209.vu.page.DcIssuePage
 import jces1209.vu.page.admin.customfields.DcBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.DcBrowseFieldScreensPage
@@ -60,6 +61,7 @@ class JiraDcScenario : Scenario {
             browseBoardsPage = DcBrowseBoardsPage(jira),
             dashboardPage = DcDashboardPage(jira),
             dashboardApi = DcDashboardApi(jira.base),
+            sprintApi = DcSprintApi(jira.base),
             manageProjectsPage = DcManageProjectsPage(jira),
             projectNavigatorPage = DcProjectNavigatorPage(jira),
             createIssue = CreateAnIssue(

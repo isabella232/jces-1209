@@ -10,6 +10,7 @@ import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.Adaptiv
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveProjectMemory
 import jces1209.vu.action.*
 import jces1209.vu.api.dashboard.DashboardApi
+import jces1209.vu.api.sprint.SprintApi
 import jces1209.vu.memory.BoardPagesMemory
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.AbstractIssuePage
@@ -54,6 +55,7 @@ class ScenarioSimilarities(
         browseBoardsPage: BrowseBoardsPage,
         dashboardPage: DashboardPage,
         dashboardApi: DashboardApi,
+        sprintApi: SprintApi,
         createIssue: Action,
         browseProjects: Action,
         issueNavigator: IssueNavigator,
@@ -123,6 +125,8 @@ class ScenarioSimilarities(
         ),
         workOnSprint = WorkOnSprint(
             meter = meter,
+            driver = jira.driver,
+            sprintApi = sprintApi,
             backlogsMemory = boardsMemory.backlog,
             sprintsMemory = boardsMemory.sprint,
             jiraTips = JiraTips(jira.driver)

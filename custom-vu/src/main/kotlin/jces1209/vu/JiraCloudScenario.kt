@@ -11,6 +11,7 @@ import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInWithAtlassianId
 import jces1209.vu.api.dashboard.CloudDashboardApi
 import jces1209.vu.api.issue.CloudIssueApi
+import jces1209.vu.api.sprint.CloudSprintApi
 import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.admin.customfields.CloudBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.CloudBrowseFieldScreensPage
@@ -63,6 +64,7 @@ class JiraCloudScenario : Scenario {
             browseBoardsPage = CloudBrowseBoardsPage(jira),
             dashboardPage = CloudDashboardPage(jira),
             dashboardApi = CloudDashboardApi(jira.base),
+            sprintApi = CloudSprintApi(jira.base),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
             createIssue = CreateAnIssue(
