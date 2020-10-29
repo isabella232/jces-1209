@@ -14,7 +14,7 @@ class BoardsFrequencyManager {
     }
 
     private fun defineFrequentBoard(boardsList: MutableList<CsvBoard>): CsvBoard {
-        //defining a default fallback board in case the random frequent board is not generated
+        //defining a default fallback board from the csv list in case the random frequent board is not generated
         var resultBoard = boardsList[Random().nextInt(boardsList.size)]
         var totalWeight = 0.0
         for (board in boardsList) {

@@ -17,7 +17,6 @@ import jces1209.vu.page.boards.view.cloud.CloudScrumBacklogPage
 import jces1209.vu.page.boards.view.cloud.CloudScrumSprintPage
 import jces1209.vu.page.contextoperation.ContextOperationBoard
 import jces1209.vu.utils.boards.BoardsFrequencyManager
-import jces1209.vu.utils.boards.CsvBoardsReader
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.openqa.selenium.WebDriver
@@ -36,16 +35,11 @@ class ViewBoard(
     private val jiraTips = JiraTips(driver)
 
     override fun run() {
-        val startTime = System.currentTimeMillis()
         val board = getBoard()
-        val finishTime = System.currentTimeMillis()
-        println("Board generation took ${finishTime - startTime}")
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
         }
-        println("Current board uri is ${board.uri}")
-        println("Current board type is ${board.getTypeLabel()}")
         val boardType = board.getTypeLabel()
         val boardContent = viewBoard(boardType, board)
 
@@ -155,10 +149,8 @@ class ViewBoard(
                     else -> logger.debug("I cannot parse the board")
                 }
             }
-            println("Returning board from csv")
             return boardPage as BoardPage
         } else {
-            println("Returning board from memory")
             return boardsMemory.recall()
         }
     }
