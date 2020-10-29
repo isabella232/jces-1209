@@ -14,7 +14,11 @@ import jces1209.vu.page.issuenavigator.DcIssueNavigator
 =======
 import jces1209.vu.api.dashboard.DcDashboardApi
 import jces1209.vu.api.issue.DcIssueApi
+<<<<<<< HEAD
 >>>>>>> 444dcad... JCSP-553: dashboard clean up (#101)
+=======
+import jces1209.vu.api.sprint.DcSprintApi
+>>>>>>> dc9f1a4... JSPC-533: sprints clean up (#102)
 import jces1209.vu.page.DcIssuePage
 import jces1209.vu.page.admin.projectroles.DcBrowseProjectRolesPage
 import jces1209.vu.page.admin.customfields.DcBrowseCustomFieldsPage
@@ -63,6 +67,7 @@ class JiraDcScenario : Scenario {
             browseBoardsPage = DcBrowseBoardsPage(jira),
             dashboardPage = DcDashboardPage(jira),
             dashboardApi = DcDashboardApi(jira.base),
+            sprintApi = DcSprintApi(jira.base),
             manageProjectsPage = DcManageProjectsPage(jira),
             projectNavigatorPage = DcProjectNavigatorPage(jira),
             createIssue = CreateAnIssue(

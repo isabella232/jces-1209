@@ -14,7 +14,11 @@ import jces1209.vu.page.issuenavigator.CloudIssueNavigator
 =======
 import jces1209.vu.api.dashboard.CloudDashboardApi
 import jces1209.vu.api.issue.CloudIssueApi
+<<<<<<< HEAD
 >>>>>>> 444dcad... JCSP-553: dashboard clean up (#101)
+=======
+import jces1209.vu.api.sprint.CloudSprintApi
+>>>>>>> dc9f1a4... JSPC-533: sprints clean up (#102)
 import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.admin.customfields.CloudBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.CloudBrowseFieldScreensPage
@@ -72,6 +76,7 @@ class JiraCloudScenario : Scenario {
             browseBoardsPage = CloudBrowseBoardsPage(jira),
             dashboardPage = CloudDashboardPage(jira),
             dashboardApi = CloudDashboardApi(jira.base),
+            sprintApi = CloudSprintApi(jira.base),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
             browseProjects = BrowseCloudProjects(

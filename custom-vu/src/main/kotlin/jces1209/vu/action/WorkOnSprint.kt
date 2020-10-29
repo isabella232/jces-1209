@@ -3,15 +3,19 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.measure.ActionMeter
 import jces1209.vu.MeasureType
+import jces1209.vu.api.sprint.SprintApi
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.JiraTips
 import jces1209.vu.page.boards.view.ScrumBacklogPage
 import jces1209.vu.page.boards.view.ScrumSprintPage
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import org.openqa.selenium.WebDriver
 
 class WorkOnSprint(
+    private val driver: WebDriver,
     private val meter: ActionMeter,
+    private val sprintApi: SprintApi,
     private val jiraTips: JiraTips,
     private val backlogsMemory: SeededMemory<ScrumBacklogPage>,
     private val sprintsMemory: SeededMemory<ScrumSprintPage>
@@ -20,7 +24,6 @@ class WorkOnSprint(
 
     override fun run() {
         workOnBacklog()
-
         workOnSprintPage()
     }
 
@@ -48,31 +51,37 @@ class WorkOnSprint(
         }
     }
 
-    private fun workOnBacklog(): Boolean {
+    private fun workOnBacklog() {
         val backlog = backlogsMemory.recall()
         if (backlog == null) {
             logger.debug("I cannot recall backlog, skipping...")
-            return true
+            return
         }
 
         backlog
             .goToBoard()
             .waitForBoardPageToLoad()
-        createSprint(backlog)
+        var sprintId: String? = null
+        try {
+            sprintId = createSprint(backlog)
 
-        jiraTips.closeTips()
-        if (backlog.backlogIssuesNumber() > 0) {
-            moveIssuesToSprint(backlog)
+            jiraTips.closeTips()
+            if (backlog.backlogIssuesNumber() > 0) {
+                moveIssuesToSprint(backlog)
 
-            if (backlog.isStartSprintEnabled()) {
-                startSprint(backlog)
+                if (backlog.isStartSprintEnabled()) {
+                    startSprint(backlog)
+                } else {
+                    logger.debug("Can't start sprint - the option is disabled")
+                }
             } else {
-                logger.debug("Can't start sprint - the option is disabled")
+                logger.debug("Scrum backlog doesn't contain issues in backlog")
             }
-        } else {
-            logger.debug("Scrum backlog doesn't contain issues in backlog")
+        } finally {
+            if (sprintApi.isReady()) {
+                sprintId?.let { sprintApi.deleteSprint(it) }
+            }
         }
-        return false
     }
 
     private fun completeSprint(sprint: ScrumSprintPage) {
@@ -109,9 +118,9 @@ class WorkOnSprint(
         }
     }
 
-    private fun createSprint(backlog: ScrumBacklogPage) {
+    private fun createSprint(backlog: ScrumBacklogPage): String? {
         jiraTips.closeTips()
-        meter.measure(MeasureType.SPRINT_CREATE) {
+        return meter.measure(MeasureType.SPRINT_CREATE) {
             backlog.createSprint()
         }
     }

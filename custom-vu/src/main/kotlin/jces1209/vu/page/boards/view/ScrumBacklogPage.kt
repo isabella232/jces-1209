@@ -42,7 +42,7 @@ abstract class ScrumBacklogPage(
             .size
     }
 
-    fun createSprint(): ScrumBacklogPage {
+    fun createSprint(): String {
         val sprintContainerLocator = By.className("js-sprint-header")
 
         val createSprintButton = driver.wait(
@@ -60,7 +60,7 @@ abstract class ScrumBacklogPage(
                 driver.findElements(sprintContainerLocator).size > sprintsNumberBeforeCreate
             })
 
-        return this
+        return driver.findElements(sprintContainerLocator).last().getAttribute("data-sprint-id")
     }
 
     fun moveIssueToSprint(): ScrumBacklogPage {
