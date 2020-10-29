@@ -4,11 +4,12 @@ import java.util.*
 
 class BoardsFrequencyManager {
 
-    private val boardsFromCsv = CsvBoardsReader.csvContent
+    private val csvPropertyFile = "BoardUsageFrequency.csv"
+    private val boardsFromCsv = CsvBoardsReader.readBoardsFromCsv(csvPropertyFile)
     private val boardsTotalWeight = calculateTotalBoardWeight()
 
     fun getBoardByFrequency(): CsvBoard? {
-        if (boardsFromCsv != null && boardsFromCsv.size > 0) {
+        if (boardsFromCsv.size > 0) {
             return defineFrequentBoard(boardsFromCsv, boardsTotalWeight)
         } else {
             return null
@@ -32,7 +33,7 @@ class BoardsFrequencyManager {
 
     private fun calculateTotalBoardWeight(): Float {
         var totalWeight = 0F
-        for (board in boardsFromCsv!!) {
+        for (board in boardsFromCsv) {
             totalWeight += board.frequency
         }
         return totalWeight

@@ -7,15 +7,9 @@ import java.net.URI
 
 object CsvBoardsReader {
 
-    var csvContent: MutableList<CsvBoard>?
     private val logger: Logger = LogManager.getLogger(this::class.java)
-    private const val csvPropertyFile = "BoardUsageFrequency.csv"
 
-    init {
-        csvContent = readBoardsFromCsv()
-    }
-
-    fun readBoardsFromCsv(): MutableList<CsvBoard> {
+    fun readBoardsFromCsv(csvPropertyFile: String): MutableList<CsvBoard> {
         val boardsFromCsv = mutableListOf<CsvBoard>()
         var csvContent = String()
         try {
