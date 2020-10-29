@@ -7,25 +7,15 @@ import java.net.URI
 
 object CsvBoardsReader {
 
-    var boardsList: MutableList<CsvBoard>?
+    var csvContent: MutableList<CsvBoard>?
     private val logger: Logger = LogManager.getLogger(this::class.java)
     private const val csvPropertyFile = "BoardUsageFrequency.csv"
 
     init {
-        boardsList = getBoardsFromCsv()
+        csvContent = readBoardsFromCsv()
     }
 
-    private fun getBoardsFromCsv(): MutableList<CsvBoard>? {
-        val csvBoardsList = readBoardsFromCsv()
-        if (csvBoardsList.size > 0) {
-            return csvBoardsList
-        } else {
-            logger.debug("I cannot find boards in the csv file.")
-            return null
-        }
-    }
-
-    private fun readBoardsFromCsv(): MutableList<CsvBoard> {
+    fun readBoardsFromCsv(): MutableList<CsvBoard> {
         val boardsFromCsv = mutableListOf<CsvBoard>()
         var csvContent = String()
         try {
