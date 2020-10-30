@@ -154,6 +154,9 @@ class MeasureType {
         var TOP_BAR_QUICK_SEARCH = ActionType("Quick search top bar") { Unit }
 
         @JvmField
+        var TOP_BAR_QUICK_SEARCH_SELECT_ITEM = ActionType("Quick search top bar (Select Item)") { Unit }
+
+        @JvmField
         val TRANSITION = ActionType("Transition") { Unit }
 
         @JvmField
