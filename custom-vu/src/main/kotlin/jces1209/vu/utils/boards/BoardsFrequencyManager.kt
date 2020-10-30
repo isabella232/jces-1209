@@ -2,8 +2,17 @@ package jces1209.vu.utils.boards
 
 import java.util.*
 
+/**
+ * Randomizes the board page generation depending on the board usage frequency.
+ */
 class BoardsFrequencyManager {
 
+    /**
+     * Contains data on the boards usage frequency and is used to emulate actual boards usage.
+     * The file should be stored in custom-vu/src/main/resources/.
+     * The template for file population can be found at /custom-vu/src/main/resources/BoardUsageFrequencyTemplate.csv.
+     */
+    //TODO Move the csv file path to the tenant properties
     private val csvPropertyFile = "BoardUsageFrequency.csv"
     private val boardsFromCsv = CsvBoardsReader.readBoardsFromCsv(csvPropertyFile)
     private val boardsTotalWeight = calculateTotalBoardWeight()

@@ -1,0 +1,6 @@
+# Copy this as BoardUsageFrequency.csv and populate with actual data  in order to load boards for Jira Cloud depending on their actual usage frequency.
+# If you do not have actual usage frequency data or no longer want to use it, then delete BoardUsageFrequency.csv.
+# The current format for filling thhis file is as follows:
+# boardId,boardUsageFrequency,boardUrl,boardType(one of a type: ScrumSprintPage, ScrumBacklogPage, NextGenBoardPage, KanbanBoardPage)
+
+1,45.67,{jiraUri}/secure/RapidBoard.jspa?rapidView=1&view=planning&issueLimit=100,ScrumBacklogPage

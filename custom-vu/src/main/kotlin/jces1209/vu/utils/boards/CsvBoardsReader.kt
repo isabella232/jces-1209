@@ -5,6 +5,10 @@ import org.apache.logging.log4j.Logger
 import java.lang.IllegalStateException
 import java.net.URI
 
+/**
+ * Reads data from a csv file.
+ * At the moment it is used for reading boards usage frequency.
+ */
 object CsvBoardsReader {
 
     private val logger: Logger = LogManager.getLogger(this::class.java)
