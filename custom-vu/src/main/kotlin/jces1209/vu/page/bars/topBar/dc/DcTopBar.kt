@@ -1,5 +1,6 @@
 package jces1209.vu.page.bars.topBar.dc
 
+import jces1209.vu.page.AbstractIssuePage
 import jces1209.vu.page.FalliblePage
 import jces1209.vu.page.bars.topBar.TopBar
 import jces1209.vu.wait
@@ -30,7 +31,7 @@ class DcTopBar(
         return this
     }
 
-    override fun quickSearch(): DcTopBar {
+    override fun quickSearch(issueKey: String): DcTopBar {
         Actions(driver)
             .sendKeys("/")
             .perform()
@@ -44,5 +45,9 @@ class DcTopBar(
                 )
             )
         return this
+    }
+
+    override fun selectItem(issueKey: String): AbstractIssuePage {
+        TODO("Not yet implemented")
     }
 }
