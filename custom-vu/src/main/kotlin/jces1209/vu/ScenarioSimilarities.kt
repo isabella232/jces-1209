@@ -143,7 +143,8 @@ class ScenarioSimilarities(
         workOnTopBar = WorkOnTopBar(
             topBar = topBar,
             jira = jira,
-            meter = meter
+            meter = meter,
+            issueKeyMemory = issueKeyMemory
         ),
         workOnSearch = WorkOnSearch(
             issueNavigator = issueNavigator,

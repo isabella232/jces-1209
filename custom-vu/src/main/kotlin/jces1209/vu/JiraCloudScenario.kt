@@ -20,6 +20,7 @@ import jces1209.vu.page.admin.manageprojects.CloudManageProjectsPage
 import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.CloudBrowseWorkflowsPage
 import jces1209.vu.page.bars.side.CloudSideBar
+import jces1209.vu.page.bars.topBar.cloud.CloudTopBar
 import jces1209.vu.page.bars.topBar.dc.DcTopBar
 import jces1209.vu.page.boards.browse.cloud.CloudBrowseBoardsPage
 import jces1209.vu.page.customizecolumns.CloudColumnsEditor
@@ -81,7 +82,7 @@ class JiraCloudScenario : Scenario {
             ),
             issueNavigator = CloudIssueNavigator(jira),
             columnsEditor = CloudColumnsEditor(jira.driver),
-            topBar = DcTopBar(jira.driver),
+            topBar = CloudTopBar(jira.driver),
             browseIssueTypesPage = CloudBrowseIssueTypesPage(jira),
             browseProjectRolesPage = CloudBrowseProjectRolesPage(jira),
             sideBar = CloudSideBar(jira)
