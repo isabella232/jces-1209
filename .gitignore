@@ -6,4 +6,5 @@ virtual-users.log
 test-results
 diagnoses
 cloud-session.properties
+BoardUsageFrequency.csv
 .DS_Store

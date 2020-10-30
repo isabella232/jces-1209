@@ -5,14 +5,18 @@ import com.atlassian.performance.tools.jiraactions.api.VIEW_BOARD
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
 import com.atlassian.performance.tools.jiraactions.api.observation.IssuesOnBoard
-import jces1209.vu.Measure
-import jces1209.vu.MeasureType
+import jces1209.vu.*
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.JiraTips
 import jces1209.vu.page.boards.view.BoardContent
 import jces1209.vu.page.boards.view.BoardPage
 import jces1209.vu.page.boards.view.KanbanBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudKanbanBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudNextGenBoardPage
+import jces1209.vu.page.boards.view.cloud.CloudScrumBacklogPage
+import jces1209.vu.page.boards.view.cloud.CloudScrumSprintPage
 import jces1209.vu.page.contextoperation.ContextOperationBoard
+import jces1209.vu.utils.boards.BoardsFrequencyManager
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.openqa.selenium.WebDriver
@@ -31,7 +35,7 @@ class ViewBoard(
     private val jiraTips = JiraTips(driver)
 
     override fun run() {
-        val board = boardsMemory.recall()
+        val board = getBoard()
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
@@ -128,6 +132,26 @@ class ViewBoard(
                     }
                 }
             }
+        }
+    }
+
+    private fun getBoard(): BoardPage? {
+        val currentUrl = driver.currentUrl
+        val boardsManager = BoardsFrequencyManager()
+        val boardObject = boardsManager.getBoardByFrequency()
+        if (boardObject != null && currentUrl.contains("atlassian.net")) {
+            val boardPage = with(boardObject.boardType) {
+                when {
+                    contains("backlog") -> CloudScrumBacklogPage(driver, boardObject.uri)
+                    contains("sprint") -> CloudScrumSprintPage(driver, boardObject.uri)
+                    contains("kanban") ->  CloudKanbanBoardPage(driver, boardObject.uri)
+                    contains("next") ->  CloudNextGenBoardPage(driver, boardObject.uri)
+                    else -> logger.debug("I cannot parse the board")
+                }
+            }
+            return boardPage as BoardPage
+        } else {
+            return boardsMemory.recall()
         }
     }
 }
