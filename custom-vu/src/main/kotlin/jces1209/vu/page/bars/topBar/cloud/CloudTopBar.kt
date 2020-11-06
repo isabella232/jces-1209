@@ -1,5 +1,6 @@
 package jces1209.vu.page.bars.topBar.cloud
 
+import com.atlassian.performance.tools.jiraactions.api.page.wait
 import jces1209.vu.page.AbstractIssuePage
 import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.bars.topBar.TopBar
@@ -23,6 +24,10 @@ class CloudTopBar(
         Actions(driver)
             .sendKeys("/")
             .perform()
+
+        driver
+            .wait(visibilityOfElementLocated(By.xpath("//span[text()='Advanced issue search']"))
+        )
 
         Actions(driver)
             .sendKeys(issueKey)
