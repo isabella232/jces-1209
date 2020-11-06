@@ -4,6 +4,7 @@ import com.atlassian.performance.tools.jiraactions.api.page.wait
 import jces1209.vu.page.FalliblePage
 import jces1209.vu.wait
 import org.openqa.selenium.By
+import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.ExpectedConditions.*
@@ -98,19 +99,23 @@ abstract class DashboardPage(
             .first { it.isDisplayed }
             .click()
         driver
-            .wait(ExpectedConditions.invisibilityOfElementLocated(By.id("gadget-dialog")))
+            .wait(invisibilityOfElementLocated(By.id("gadget-dialog")))
 
-        val chartsNumber = driver
-            .findElements(By.className("bubble-chart-component-plot"))
+        val chartsNumber = try {driver
+            .wait(presenceOfAllElementsLocatedBy(By.className("bubble-chart-component-plot")))
             .size
+        } catch (exc: TimeoutException) {
+            0
+        }
+
         driver
-            .findElement(By.cssSelector("[id$='project-filter-picker']"))
+            .wait(elementToBeClickable(By.cssSelector("[id$='project-filter-picker']")))
             .sendKeys(projectName)
         driver
             .wait(visibilityOfElementLocated(By.className("aui-list-item-link")))
             .click()
         driver
-            .findElement(By.cssSelector(".button.submit"))
+            .wait(elementToBeClickable(By.cssSelector(".button.submit")))
             .click()
         driver
             .wait(numberOfElementsToBeMoreThan(By.cssSelector(".bubble-chart-component-plot, .aui-message-error"), chartsNumber))
