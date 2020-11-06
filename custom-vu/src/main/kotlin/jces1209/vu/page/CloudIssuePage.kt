@@ -219,9 +219,9 @@ class CloudIssuePage(
     }
 
     private fun changeAssigneeClassicView(): CloudIssuePage {
-        (driver as JavascriptExecutor).executeAsyncScript("window.setTimeout(arguments[arguments.length - 1], 1000);")
         driver
-            .wait(elementToBeClickable(By.id("assignee-val"))).click()
+            .wait(elementToBeClickable(By.xpath("//span[@id='assignee-val' and not (@inactive)]")))
+            .click()
         driver
             .wait(visibilityOfElementLocated(By.xpath("//span[@id='assignee-val'][contains(@class,'active')]")))
         driver
