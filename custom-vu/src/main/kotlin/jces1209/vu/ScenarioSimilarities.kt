@@ -80,20 +80,20 @@ class ScenarioSimilarities(
             dashboardApi = dashboardApi,
             viewDashboardsProbability = 1.00f,
             viewDashboardProbability = 1.00f,
-            createDashboardAndGadgetProbability = 0.00f // 0.10f if we can mutate data
+            createDashboardAndGadgetProbability = 0.10f // 0.10f if we can mutate data
         ),
         workAnIssue = WorkOnIssue(
             issuePage = issuePage,
             jira = jira,
             measure = measure,
             issueKeyMemory = issueKeyMemory,
-            editProbability = 0.00f, // 0.10f if we can mutate data
-            commentProbability = 0.00f, // 0.04f if we can mutate data
-            linkIssueProbability = 0.00f, // 0.10f if we can mutate data
-            attachScreenShotProbability = 0.00f, // 0.04f if we can mutate data
-            changeAssigneeProbability = 0.00f, // 0.04f if we can mutate data
-            mentionUserProbability = 0.00f, // 0.04f if we can mutate data
-            transitionProbability = 0.00f, // 0.04f if we can mutate data
+            editProbability = 0.10f, // 0.10f if we can mutate data
+            commentProbability = 0.04f, // 0.04f if we can mutate data
+            linkIssueProbability = 0.10f, // 0.10f if we can mutate data
+            attachScreenShotProbability = 0.04f, // 0.04f if we can mutate data
+            changeAssigneeProbability = 0.04f, // 0.04f if we can mutate data
+            mentionUserProbability = 0.04f, // 0.04f if we can mutate data
+            transitionProbability = 0.04f, // 0.04f if we can mutate data
             contextOperationProbability = 0.05f
         ),
         projectSummary = ProjectSummaryAction(
@@ -228,7 +228,7 @@ class ScenarioSimilarities(
     ): List<Action> {
         val exploreData = listOf(browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
-            createIssue to 0, // 5 if we can mutate data
+            createIssue to 5, // 5 if we can mutate data
             workAnIssue to 55,
             manageProjects to 5,
             projectSummary to 5,
@@ -236,9 +236,9 @@ class ScenarioSimilarities(
             browseBoards to 5,
             viewBoard to 30,
             workOnDashboard to 5,
-            workOnSprint to 0, // 3 if we can mutate data
+            workOnSprint to 3, // 3 if we can mutate data
             browseProjectIssues to 5,
-            workOnBacklog to 0, // 3 if we can mutate data
+            workOnBacklog to 3, // 3 if we can mutate data
             workOnSearch to 5,
             workOnTopBar to 5,
             bulkEdit to 0, // 5 if we can mutate data
