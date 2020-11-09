@@ -20,9 +20,9 @@ class CloudTopBar(
     }
 
     override fun quickSearch(issueKey: String): CloudTopBar {
-        Actions(driver)
-            .sendKeys("/")
-            .perform()
+        driver
+            .wait(visibilityOfElementLocated(By.xpath("//input[@data-test-id='search-dialog-input']")))
+            .click()
 
         driver
             .wait(visibilityOfElementLocated(By.xpath("//span[text()='Advanced issue search']"))
