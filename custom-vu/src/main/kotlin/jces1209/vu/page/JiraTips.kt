@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 class JiraTips(
     private val driver: WebDriver
 ) {
+    val dialogPopup = By.cssSelector("[role='dialog']")
 
     fun closeTips() {
         driver
@@ -20,7 +21,7 @@ class JiraTips(
                 driver.wait(ExpectedConditions.invisibilityOf(it))
             }
         driver
-            .findElements(By.cssSelector("[role='dialog']"))
+            .findElements(dialogPopup)
             .filter { it.isDisplayed }
             .forEach {
                 it
@@ -45,6 +46,15 @@ class JiraTips(
             .forEach {
                 it
                     .findElement(By.className("ee-action-dismiss"))
+                    .click()
+                driver.wait(ExpectedConditions.invisibilityOf(it))
+            }
+        driver
+            .findElements(By.xpath("//img[contains(@alt, 'Jira Service Desk')]"))
+            .filter {it.isDisplayed}
+            .forEach{
+                it
+                    .findElement(By.xpath("//span[.='Ok, thanks']"))
                     .click()
                 driver.wait(ExpectedConditions.invisibilityOf(it))
             }
