@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 class JiraTips(
     private val driver: WebDriver
 ) {
-    val dialogPopup = By.cssSelector("[role='dialog']")
 
     fun closeTips() {
         driver
@@ -21,7 +20,7 @@ class JiraTips(
                 driver.wait(ExpectedConditions.invisibilityOf(it))
             }
         driver
-            .findElements(dialogPopup)
+            .findElements(By.cssSelector("[role='dialog']"))
             .filter { it.isDisplayed }
             .forEach {
                 it
