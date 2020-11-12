@@ -15,7 +15,7 @@ class CloudBrowseIssueTypesPage(
         jira.driver,
         and(
             loadingPageExpectedCondition,
-            presenceOfAllElementsLocatedBy(By.xpath("//*[@data-testid = 'NavigationItem']")),
+            presenceOfAllElementsLocatedBy(By.xpath("//div[@role='group']/a")),
             presenceOfElementLocated(By.xpath("//*[. = 'Issue types']")),
             presenceOfElementLocated(By.className("search-entry"))
         )
