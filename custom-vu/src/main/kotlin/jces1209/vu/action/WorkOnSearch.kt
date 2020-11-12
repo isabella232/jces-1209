@@ -90,10 +90,12 @@ class WorkOnSearch(
 
     private fun customizeColumns() {
         measure.roll(customizeColumnsProbability) {
+            System.out.println("customizeColumns ")
             jira.goToIssueNavigator("resolution = Unresolved ORDER BY priority DESC")
+            columnsEditor.selectView(1)
+            columnsEditor.openEditor()
+            columnsEditor.selectItems(2)
             measure.measure(MeasureType.CUSTOMIZE_COLUMNS) {
-                columnsEditor.openEditor()
-                columnsEditor.selectItems(2)
                 columnsEditor.submitSelection()
             }
         }
