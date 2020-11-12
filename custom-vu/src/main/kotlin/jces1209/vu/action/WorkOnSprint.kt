@@ -30,7 +30,7 @@ class WorkOnSprint(
     private fun workOnSprintPage() {
         val sprint = sprintsMemory.recall()
         if (sprint == null) {
-            logger.debug("I cannot recall active sprint board, skipping...")
+            println("I cannot recall active sprint board, skipping...")
             return
         }
 
@@ -41,20 +41,20 @@ class WorkOnSprint(
         if (sprint.maxColumnIssuesNumber() > 1) {
             reorderIssue(sprint)
         } else {
-            logger.debug("Scrum backlog doesn't contain enough issues to make reorder")
+            println("Scrum backlog doesn't contain enough issues to make reorder")
         }
 
-        if (sprint.isCompleteButtonPresent()) {
+        if (sprint.isCompleteButtonEnabled()) {
             completeSprint(sprint)
         } else {
-            logger.debug("Scrum backlog doesn't contain sprint which is ready to be completed")
+            println("Scrum backlog doesn't contain sprint which is ready to be completed")
         }
     }
 
     private fun workOnBacklog() {
         val backlog = backlogsMemory.recall()
         if (backlog == null) {
-            logger.debug("I cannot recall backlog, skipping...")
+            println("I cannot recall backlog, skipping...")
             return
         }
 
@@ -72,10 +72,10 @@ class WorkOnSprint(
                 if (backlog.isStartSprintEnabled()) {
                     startSprint(backlog)
                 } else {
-                    logger.debug("Can't start sprint - the option is disabled")
+                    println("Can't start sprint - the option is disabled")
                 }
             } else {
-                logger.debug("Scrum backlog doesn't contain issues in backlog")
+                println("Scrum backlog doesn't contain issues in backlog")
             }
         } finally {
             if (sprintApi.isReady()) {
