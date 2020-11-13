@@ -26,7 +26,9 @@ class CloudIssueNavigator(
                     presenceOfElementLocated(By.cssSelector("ol.issue-list")),
                     presenceOfElementLocated(By.id("issuetable")),
                     presenceOfElementLocated(By.id("issue-content")),
-                    presenceOfElementLocated(filterDetailsLocator)
+                    presenceOfElementLocated(filterDetailsLocator),
+                    presenceOfElementLocated(By.xpath("//div[@role='grid']")),
+                    presenceOfElementLocated(By.className("ghx-issue-content"))
                 ),
                 or(
                     presenceOfElementLocated(By.id("jira-issue-header")),
@@ -34,11 +36,16 @@ class CloudIssueNavigator(
                 ),
                 or(
                     presenceOfElementLocated(By.id("new-issue-body-container")),
-                    presenceOfElementLocated(By.className("issue-body-content"))
+                    presenceOfElementLocated(By.className("issue-body-content")),
+                    presenceOfElementLocated(By.xpath("//div[@data-test-id='issue.views.issue-details.issue-layout.issue-layout']"))
                 )
             ),
             and(
-                presenceOfElementLocated(By.cssSelector("[data-testid='issue-navigator.ui.card-list.card']")),
+                presenceOfElementLocated(By.id("summary-val")),
+                presenceOfElementLocated(By.id("status-val")),
+                presenceOfElementLocated(By.className("action-details"))
+            ),
+            and(
                 presenceOfElementLocated(By.cssSelector("[data-test-id='issue.views.issue-base.foundation.summary.heading']")),
                 presenceOfElementLocated(By.cssSelector("[data-test-id='issue.views.issue-base.foundation.status.status-field-wrapper']")),
                 presenceOfElementLocated(By.cssSelector("[data-test-id='issue.views.issue-details.issue-layout.footnote']"))
