@@ -11,8 +11,6 @@ abstract class ColumnsEditor(
     private val driver: WebDriver
 ) {
 
-    //1 List
-    //0 Detailed
     fun selectView(view: Int) {
         driver.wait(
             condition = ExpectedConditions.elementToBeClickable(By.xpath(

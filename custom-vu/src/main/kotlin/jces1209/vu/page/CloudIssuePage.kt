@@ -75,16 +75,6 @@ class CloudIssuePage(
         return if (isBentoViewEnabled()) changeAssigneeBentoView() else changeAssigneeClassicView()
     }
 
-    private fun isBentoViewEnabled(): Boolean {
-        try {
-            driver
-                .wait(presenceOfElementLocated(bentoSummary))
-        } catch (exc: Exception) {
-            return false
-        }
-        return true
-    }
-
     override fun contextOperation(): ContextOperationIssue {
         return ContextOperationIssue(driver)
     }
@@ -248,6 +238,16 @@ class CloudIssuePage(
         driver
             .wait(presenceOfElementLocated(By.xpath("//*[text()[contains(.,'$firstUserName')]]")))
         return this;
+    }
+
+    private fun isBentoViewEnabled(): Boolean {
+        try {
+            driver
+                .wait(presenceOfElementLocated(bentoSummary))
+        } catch (exc: Exception) {
+            return false
+        }
+        return true
     }
 
     private fun isCommentingClassic(): Boolean = driver
