@@ -8,7 +8,6 @@ import jces1209.vu.MeasureType.Companion.CREATE_DASHBOARD
 import jces1209.vu.MeasureType.Companion.CREATE_GADGET
 import jces1209.vu.MeasureType.Companion.VIEW_DASHBOARD
 import jces1209.vu.MeasureType.Companion.VIEW_DASHBOARDS
-import jces1209.vu.api.dashboard.CloudDashboardApi
 import jces1209.vu.api.dashboard.DashboardApi
 import jces1209.vu.page.dashboard.DashboardPage
 import org.apache.logging.log4j.LogManager
@@ -60,20 +59,27 @@ class WorkOnDashboard(
                     val projectKey = projectKeyMemory.recall()
                     if (projectKey == null) {
                         logger.debug("I don't recall any project keys. Maybe next time I will.")
-                        return@roll
+                    } else {
+                        dashboardPage.selectDashboardIfPresent(dashboardName)
+                        measure.measure(
+                            key = CREATE_GADGET,
+                            action = {
+                                dashboardPage.createGadget(projectKey.name)
+                            }
+                        )
                     }
-                    dashboardPage.selectDashboardIfPresent(dashboardName)
-                    measure.measure(
-                        key = CREATE_GADGET,
-                        action = {
-                            dashboardPage.createGadget(projectKey.name)
-                        }
-                    )
                 }
             } finally {
                 if (dashboardApi.isReady()) {
                     val matchResult = "selectPageId=(\\d+)?".toRegex().find(jira.driver.currentUrl)
-                    matchResult?.groupValues?.get(1)?.let { dashboardApi.deleteDashboard(it) }
+                    matchResult?.groupValues?.get(1)?.let { id ->
+                        repeat(3) {
+                            val response = dashboardApi.deleteDashboard(id)
+                            if (response.code() == 204) {
+                                return@repeat
+                            }
+                        }
+                    }
                 }
             }
         }
