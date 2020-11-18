@@ -78,23 +78,23 @@ class ScenarioSimilarities(
             projectKeyMemory = projectMemory,
             dashboardPage = dashboardPage,
             dashboardApi = dashboardApi,
-            viewDashboardsProbability = 1.00f,
+            viewDashboardsProbability = 0.00f,
             viewDashboardProbability = 1.00f,
-            createDashboardAndGadgetProbability = 0.10f // 0.10f if we can mutate data
+            createDashboardAndGadgetProbability = 0.00f // 0.10f if we can mutate data
         ),
         workAnIssue = WorkOnIssue(
             issuePage = issuePage,
             jira = jira,
             measure = measure,
             issueKeyMemory = issueKeyMemory,
-            editProbability = 0.10f, // 0.10f if we can mutate data
-            commentProbability = 0.04f, // 0.04f if we can mutate data
-            linkIssueProbability = 0.10f, // 0.10f if we can mutate data
-            attachScreenShotProbability = 0.04f, // 0.04f if we can mutate data
-            changeAssigneeProbability = 0.04f, // 0.04f if we can mutate data
-            mentionUserProbability = 0.04f, // 0.04f if we can mutate data
-            transitionProbability = 0.04f, // 0.04f if we can mutate data
-            contextOperationProbability = 0.05f
+            editProbability = 0.00f, // 0.10f if we can mutate data
+            commentProbability = 0.2f, // 0.04f if we can mutate data
+            linkIssueProbability = 0.00f, // 0.10f if we can mutate data
+            attachScreenShotProbability = 0.00f, // 0.04f if we can mutate data
+            changeAssigneeProbability = 0.15f, // 0.04f if we can mutate data
+            mentionUserProbability = 0.00f, // 0.04f if we can mutate data
+            transitionProbability = 0.40f, // 0.04f if we can mutate data
+            contextOperationProbability = 0.0f
         ),
         projectSummary = ProjectSummaryAction(
             jira = jira,
@@ -118,10 +118,10 @@ class ScenarioSimilarities(
             measure = measure,
             boardsMemory = boardsMemory.all,
             issueKeyMemory = issueKeyMemory,
-            viewIssueProbability = 0.50f,
-            configureBoardProbability = 0.05f,
-            contextOperationProbability = 0.05f,
-            changeIssueStatusProbability = 0.10f
+            viewIssueProbability = 0.8f,
+            configureBoardProbability = 0.0f,
+            contextOperationProbability = 0.00f,
+            changeIssueStatusProbability = 0.7f
         ),
         workOnSprint = WorkOnSprint(
             meter = meter,
@@ -154,11 +154,11 @@ class ScenarioSimilarities(
             filters = filtersMemory,
             jqlMemory = jqlMemory,
             issueKeyMemory = issueKeyMemory,
-            searchFilterProbability = 0.50f,
-            searchJclProbability = 0.05f,
-            globalSearchProbability = 0.50f,
-            customizeColumnsProbability = 0.05f,
-            switchBetweenIssuesProbability = 0.15f,
+            searchFilterProbability = 0.0f,
+            searchJclProbability = 0.0f,
+            globalSearchProbability = 1.0f,
+            customizeColumnsProbability = 0.0f,
+            switchBetweenIssuesProbability = 0.0f,
             subscribeToFilterProbability = 0.00f
         ),
         bulkEdit = BulkEdit(
@@ -170,7 +170,7 @@ class ScenarioSimilarities(
             boardsMemory = boardsMemory.sprint,
             sideBar = sideBar,
             issueNavigator = issueNavigator,
-            switchViewsProbability = 0.75f
+            switchViewsProbability = 0.00f
         ),
         browseIssueTypes = BrowseIssueTypes(
             measure = measure,
@@ -183,8 +183,8 @@ class ScenarioSimilarities(
         workOnWorkflow = WorkOnWorkflow(
             measure = measure,
             browseWorkflowsPage = browseWorkflowsPage,
-            browseWorkflowsProbability = 0.50f,
-            viewWorkflowProbability = 0.50f,
+            browseWorkflowsProbability = 0.00f,
+            viewWorkflowProbability = 0.00f,
             createWorkflowProbability = 0.00f, // 0.02 if we can mutate data
             editWorkflowProbability = 0.00f // 0.06 if we can mutate data
         ),
@@ -228,27 +228,27 @@ class ScenarioSimilarities(
     ): List<Action> {
         val exploreData = listOf(browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
-            createIssue to 5, // 5 if we can mutate data
-            workAnIssue to 55,
-            manageProjects to 5,
-            projectSummary to 5,
-            browseProjects to 5,
-            browseBoards to 5,
-            viewBoard to 30,
-            workOnDashboard to 5,
-            workOnSprint to 3, // 3 if we can mutate data
-            browseProjectIssues to 5,
-            workOnBacklog to 3, // 3 if we can mutate data
-            workOnSearch to 5,
-            workOnTopBar to 5,
+            createIssue to 3, // 5 if we can mutate data
+            workAnIssue to 20,
+            manageProjects to 0,//5
+            projectSummary to 0,//5
+            browseProjects to 0,//25
+            browseBoards to 0,
+            viewBoard to 13,//40
+            workOnDashboard to 3, //
+            workOnSprint to 0, // 3 if we can mutate data
+            browseProjectIssues to 0,//5
+            workOnBacklog to 0, // 3 if we can mutate data
+            workOnSearch to 4,//5
+            workOnTopBar to 3,
             bulkEdit to 0, // 5 if we can mutate data
-            workOnTransition to 5,
-            workOnWorkflow to 5,
-            browseFieldScreens to 5,
-            browseFieldConfigurations to 5,
-            browseCustomFields to 5,
-            browseIssueTypes to 5,
-            browseProjectRoles to 5
+            workOnTransition to 0,
+            workOnWorkflow to 0,
+            browseFieldScreens to 0,//5
+            browseFieldConfigurations to 0,//5
+            browseCustomFields to 0,//5
+            browseIssueTypes to 0,
+            browseProjectRoles to 0
         )
             .map { (action, proportion) -> Collections.nCopies(proportion, action) }
             .flatten()
