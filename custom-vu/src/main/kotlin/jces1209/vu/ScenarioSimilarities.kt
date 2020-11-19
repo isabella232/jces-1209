@@ -79,7 +79,7 @@ class ScenarioSimilarities(
             dashboardPage = dashboardPage,
             dashboardApi = dashboardApi,
             viewDashboardsProbability = 0.00f,
-            viewDashboardProbability = 1.00f,
+            viewDashboardProbability = 0.00f,
             createDashboardAndGadgetProbability = 0.00f // 0.10f if we can mutate data
         ),
         workAnIssue = WorkOnIssue(
@@ -88,12 +88,12 @@ class ScenarioSimilarities(
             measure = measure,
             issueKeyMemory = issueKeyMemory,
             editProbability = 0.00f, // 0.10f if we can mutate data
-            commentProbability = 0.2f, // 0.04f if we can mutate data
+            commentProbability = 0.032f, // 0.04f if we can mutate data
             linkIssueProbability = 0.00f, // 0.10f if we can mutate data
             attachScreenShotProbability = 0.00f, // 0.04f if we can mutate data
-            changeAssigneeProbability = 0.15f, // 0.04f if we can mutate data
+            changeAssigneeProbability = 0.026f, // 0.04f if we can mutate data
             mentionUserProbability = 0.00f, // 0.04f if we can mutate data
-            transitionProbability = 0.40f, // 0.04f if we can mutate data
+            transitionProbability = 0.00f, // 0.04f if we can mutate data
             contextOperationProbability = 0.0f
         ),
         projectSummary = ProjectSummaryAction(
@@ -118,10 +118,10 @@ class ScenarioSimilarities(
             measure = measure,
             boardsMemory = boardsMemory.all,
             issueKeyMemory = issueKeyMemory,
-            viewIssueProbability = 0.8f,
-            configureBoardProbability = 0.0f,
+            viewIssueProbability = 0.09f,
+            configureBoardProbability = 0.00f,
             contextOperationProbability = 0.00f,
-            changeIssueStatusProbability = 0.7f
+            changeIssueStatusProbability = 0.06f
         ),
         workOnSprint = WorkOnSprint(
             meter = meter,
@@ -228,19 +228,19 @@ class ScenarioSimilarities(
     ): List<Action> {
         val exploreData = listOf(browseProjects, browseFilters, browseBoards)
         val spreadOut = mapOf(
-            createIssue to 3, // 5 if we can mutate data
-            workAnIssue to 20,
+            createIssue to 6, // 5 if we can mutate data
+            workAnIssue to 172,
             manageProjects to 0,//5
             projectSummary to 0,//5
             browseProjects to 0,//25
             browseBoards to 0,
-            viewBoard to 13,//40
-            workOnDashboard to 3, //
-            workOnSprint to 0, // 3 if we can mutate data
+            viewBoard to 28,//22+6
+            workOnDashboard to 12, //
+            workOnSprint to 14, // 3 if we can mutate data
             browseProjectIssues to 0,//5
             workOnBacklog to 0, // 3 if we can mutate data
-            workOnSearch to 4,//5
-            workOnTopBar to 3,
+            workOnSearch to 32,//5
+            workOnTopBar to 22,
             bulkEdit to 0, // 5 if we can mutate data
             workOnTransition to 0,
             workOnWorkflow to 0,
