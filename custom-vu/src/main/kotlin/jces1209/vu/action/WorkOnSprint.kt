@@ -23,7 +23,7 @@ class WorkOnSprint(
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-//        workOnBacklog()
+        workOnBacklog()
         workOnSprintPage()
     }
 
@@ -44,11 +44,11 @@ class WorkOnSprint(
             println("Scrum backlog doesn't contain enough issues to make reorder")
         }
 
-//        if (sprint.isCompleteButtonEnabled()) {
-//            completeSprint(sprint)
-//        } else {
-//            println("Scrum backlog doesn't contain sprint which is ready to be completed")
-//        }
+        if (sprint.isCompleteButtonEnabled()) {
+            completeSprint(sprint)
+        } else {
+            println("Scrum backlog doesn't contain sprint which is ready to be completed")
+        }
     }
 
     private fun workOnBacklog() {
