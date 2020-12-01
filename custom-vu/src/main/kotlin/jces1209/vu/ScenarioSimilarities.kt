@@ -125,11 +125,16 @@ class ScenarioSimilarities(
         ),
         workOnSprint = WorkOnSprint(
             meter = meter,
-            driver = jira.driver,
             sprintApi = sprintApi,
             backlogsMemory = boardsMemory.backlog,
             sprintsMemory = boardsMemory.sprint,
-            jiraTips = JiraTips(jira.driver)
+            jiraTips = JiraTips(jira.driver),
+            measure = measure,
+            completeSprintProbability = 0.00f,
+            reorderIssueProbability = 0.50f,
+            moveIssueProbability = 0.50f,
+            startSprintProbability = 0.50f,
+            createSprintProbability = 0.50f
         ),
         browseProjectIssues = BrowseProjectIssues(
             meter = meter,
