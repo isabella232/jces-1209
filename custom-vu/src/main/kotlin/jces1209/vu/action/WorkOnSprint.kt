@@ -45,8 +45,17 @@ class WorkOnSprint(
             .goToBoard()
             .waitForBoardPageToLoad()
 
-        reorderIssue(sprint)
-        completeSprint(sprint)
+        if (sprint.maxColumnIssuesNumber() > 1) {
+            reorderIssue(sprint)
+        } else {
+            println("Scrum backlog doesn't contain enough issues to make reorder")
+        }
+
+        if (sprint.isCompleteButtonEnabled()) {
+            completeSprint(sprint)
+        } else {
+            println("Scrum backlog doesn't contain sprint which is ready to be completed")
+        }
     }
 
     private fun workOnBacklog() {
@@ -66,7 +75,12 @@ class WorkOnSprint(
             jiraTips.closeTips()
             if (backlog.backlogIssuesNumber() > 0) {
                 moveIssuesToSprint(backlog)
-                startSprint(backlog)
+
+                if (backlog.isStartSprintEnabled()) {
+                    startSprint(backlog)
+                } else {
+                    println("Can't start sprint - the option is disabled")
+                }
             } else {
                 println("Scrum backlog doesn't contain issues in backlog")
             }
@@ -79,43 +93,31 @@ class WorkOnSprint(
 
     private fun completeSprint(sprint: ScrumSprintPage) {
         measure.measure(SPRINT_COMPLETE, completeSprintProbability) {
-            if (sprint.isCompleteButtonEnabled()) {
-                sprint.completeSprint()
-            } else {
-                println("Scrum backlog doesn't contain sprint which is ready to be completed")
-            }
+            sprint.completeSprint()
         }
     }
 
     private fun reorderIssue(sprint: ScrumSprintPage) {
         measure.measure(SPRINT_REORDER_ISSUE, reorderIssueProbability) {
-            if (sprint.maxColumnIssuesNumber() > 1) {
-                sprint.reorderIssue()
-            } else {
-                println("Scrum backlog doesn't contain enough issues to make reorder")
-            }
+            sprint.reorderIssue()
         }
     }
 
     private fun startSprint(backlog: ScrumBacklogPage) {
         measure.measure(SPRINT_START_SPRINT, startSprintProbability) {
-            if (backlog.isStartSprintEnabled()) {
-                meter.measure(MeasureType.SPRINT_START_SPRINT_EDITOR) {
-                    backlog.openStartSprintPopUp()
-                }
-                meter.measure(MeasureType.SPRINT_START_SPRINT_SUBMIT) {
-                    backlog.submitStartSprint()
-                }
-            } else {
-                println("Can't start sprint - the option is disabled")
+            meter.measure(MeasureType.SPRINT_START_SPRINT_EDITOR) {
+                backlog.openStartSprintPopUp()
+            }
+            meter.measure(MeasureType.SPRINT_START_SPRINT_SUBMIT) {
+                backlog.submitStartSprint()
             }
         }
     }
 
     private fun moveIssuesToSprint(backlog: ScrumBacklogPage) {
-        measure.measure(SPRINT_MOVE_ISSUE, moveIssueProbability) {
-            // Move additional times for reordering
-            repeat(10) {
+        // Move additional times for reordering
+        repeat(10) {
+            measure.measure(SPRINT_MOVE_ISSUE, moveIssueProbability) {
                 backlog.moveIssueToSprint()
             }
         }
