@@ -83,7 +83,6 @@ class ScenarioSimilarities(
             jira = jira,
             measure = measure,
             issueKeyMemory = issueKeyMemory,
-            seededRandom = seededRandom,
             editProbability = 0.00f, // 0.10f if we can mutate data
             commentProbability = 0.00f, // 0.04f if we can mutate data
             linkIssueProbability = 0.00f, // 0.10f if we can mutate data

@@ -39,7 +39,9 @@ class LogInWithAtlassianId(
 
     private fun logIn() {
         jira.goToLogin()
-        Thread.sleep(Random().nextInt(Duration.ofMinutes(5).toMillis().toInt()).plus(Duration.ofMinutes(5).toMillis()))
+        if(!System.getenv("readDynamicPropertiesFile").isNullOrEmpty()) {
+            Thread.sleep(Random().nextInt(Duration.ofMinutes(5).toMillis().toInt()).plus(Duration.ofMinutes(5).toMillis()))
+        }
         fillUserName()
         fillPassword()
         chooseAccount()

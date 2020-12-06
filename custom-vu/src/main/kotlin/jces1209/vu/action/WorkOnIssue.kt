@@ -28,7 +28,6 @@ class WorkOnIssue(
     private val jira: WebJira,
     private val measure: Measure,
     private var issueKeyMemory: IssueKeyMemory,
-    private val seededRandom: SeededRandom,
     private val editProbability: Float,
     private val commentProbability: Float,
     private val linkIssueProbability: Float,
@@ -41,12 +40,6 @@ class WorkOnIssue(
     private val logger: Logger = LogManager.getLogger(this::class.java)
 
     override fun run() {
-
-        val issueKeyMemoryIdsList: List<String> = getIssueKeyMemoryIds()
-        if(issueKeyMemoryIdsList.isNotEmpty()){
-            issueKeyMemory = AdaptiveIssueKeyMemory(seededRandom)
-            issueKeyMemory.remember(issueKeyMemoryIdsList)
-        }
 
         val issueKey = issueKeyMemory.recall()
         if (issueKey == null) {
@@ -180,19 +173,5 @@ class WorkOnIssue(
                 }
             }
         }
-    }
-
-    private fun getIssueKeyMemoryIds() : List<String> {
-        var issueKeyMemoryIdsList: List<String> = listOf()
-        val readTrafficShapeConfig = System.getenv("readTrafficShapeConfig")
-
-        if (!readTrafficShapeConfig.isNullOrEmpty()) {
-            val resourceName = TrafficDataParser.parseData(jira.base.host, readTrafficShapeConfig)
-            val properties = ConfigProperties.load(resourceName)
-
-            val issueKeyMemoryIds: String = properties.getProperty("action.issueKeyMemoryIds")
-            issueKeyMemoryIdsList = issueKeyMemoryIds.split(",").map { it.trim() }
-        }
-        return issueKeyMemoryIdsList
     }
 }
