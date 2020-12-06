@@ -3,8 +3,6 @@ package jces1209.vu.action
 import com.atlassian.performance.tools.jiraactions.api.*
 import com.atlassian.performance.tools.jiraactions.api.action.Action
 import com.atlassian.performance.tools.jiraactions.api.memories.IssueKeyMemory
-import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveIssueKeyMemory
-import jces1209.vu.ConfigProperties
 import jces1209.vu.Measure
 import jces1209.vu.MeasureType
 import jces1209.vu.MeasureType.Companion.ATTACH_SCREENSHOT
@@ -15,7 +13,6 @@ import jces1209.vu.MeasureType.Companion.ISSUE_LINK_LOAD_FORM
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SEARCH_CHOOSE
 import jces1209.vu.MeasureType.Companion.ISSUE_LINK_SUBMIT
 import jces1209.vu.MeasureType.Companion.OPEN_MEDIA_VIEWER
-import jces1209.vu.TrafficDataParser
 import jces1209.vu.page.AbstractIssuePage
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -27,7 +24,7 @@ class WorkOnIssue(
     private val issuePage: AbstractIssuePage,
     private val jira: WebJira,
     private val measure: Measure,
-    private var issueKeyMemory: IssueKeyMemory,
+    private val issueKeyMemory: IssueKeyMemory,
     private val editProbability: Float,
     private val commentProbability: Float,
     private val linkIssueProbability: Float,
