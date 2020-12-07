@@ -9,6 +9,7 @@ import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.Adaptiv
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveJqlMemory
 import com.atlassian.performance.tools.jiraactions.api.memories.adaptive.AdaptiveProjectMemory
 import jces1209.vu.action.*
+import jces1209.vu.action.boards.*
 import jces1209.vu.api.dashboard.DashboardApi
 import jces1209.vu.api.sprint.SprintApi
 import jces1209.vu.memory.BoardPagesMemory
@@ -113,7 +114,16 @@ class ScenarioSimilarities(
             meter = meter,
             boardsMemory = boardsMemory
         ),
-        viewBoard = ViewBoard(
+        viewScrumBoard = ViewScrumBoard(
+            driver = jira.driver,
+            measure = measure,
+            boardsMemory = boardsMemory.all,
+            issueKeyMemory = issueKeyMemory,
+            viewIssueProbability = 0.50f,
+            configureBoardProbability = 0.05f,
+            contextOperationProbability = 0.05f
+        ),
+        viewKanbanBoard = ViewKanbanBoard(
             driver = jira.driver,
             measure = measure,
             boardsMemory = boardsMemory.all,
@@ -122,6 +132,24 @@ class ScenarioSimilarities(
             configureBoardProbability = 0.05f,
             contextOperationProbability = 0.05f,
             changeIssueStatusProbability = 0.10f
+        ),
+        viewNextGenBoard = ViewNextGenBoard(
+            driver = jira.driver,
+            measure = measure,
+            boardsMemory = boardsMemory.all,
+            issueKeyMemory = issueKeyMemory,
+            viewIssueProbability = 0.50f,
+            configureBoardProbability = 0.05f,
+            contextOperationProbability = 0.05f
+        ),
+        viewBacklog = ViewBacklog(
+            driver = jira.driver,
+            measure = measure,
+            boardsMemory = boardsMemory.all,
+            issueKeyMemory = issueKeyMemory,
+            viewIssueProbability = 0.50f,
+            configureBoardProbability = 0.05f,
+            contextOperationProbability = 0.05f
         ),
         workOnSprint = WorkOnSprint(
             meter = meter,
@@ -215,7 +243,10 @@ class ScenarioSimilarities(
         browseProjects: Action,
         browseFilters: Action,
         browseBoards: Action,
-        viewBoard: Action,
+        viewScrumBoard: Action,
+        viewKanbanBoard: Action,
+        viewNextGenBoard: Action,
+        viewBacklog: Action,
         workOnDashboard: Action,
         workOnSprint: Action,
         browseProjectIssues: Action,
@@ -239,7 +270,10 @@ class ScenarioSimilarities(
             projectSummary to 5,
             browseProjects to 5,
             browseBoards to 5,
-            viewBoard to 30,
+            viewScrumBoard to 30,
+            viewKanbanBoard to 30,
+            viewNextGenBoard to 0,
+            viewBacklog to 30,
             workOnDashboard to 5,
             workOnSprint to 0, // 3 if we can mutate data
             browseProjectIssues to 5,

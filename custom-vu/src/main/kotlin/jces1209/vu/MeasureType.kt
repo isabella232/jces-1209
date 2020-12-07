@@ -61,6 +61,18 @@ class MeasureType {
         val CONTEXT_OPERATION_BOARD = ActionType("Context operation (Board)") { Unit }
 
         @JvmField
+        val CONTEXT_OPERATION_SCRUM_BOARD = ActionType("Context operation (Scrum Board)") { Unit }
+
+        @JvmField
+        val CONTEXT_OPERATION_NEXT_GEN_BOARD = ActionType("Context operation (NextGen Board)") { Unit }
+        
+        @JvmField
+        val CONTEXT_OPERATION_KANBAN_BOARD = ActionType("Context operation (Kanban Board)") { Unit }
+
+        @JvmField
+        val CONTEXT_OPERATION_BACKLOG = ActionType("Context operation (Backlog)") { Unit }
+
+        @JvmField
         val CONTEXT_OPERATION_ISSUE = ActionType("Context operation (Issue)") { Unit }
 
         @JvmField
@@ -71,6 +83,18 @@ class MeasureType {
 
         @JvmField
         val ISSUE_PREVIEW_BOARD = ActionType("Preview issue (Board)") { Unit }
+
+        @JvmField
+        val ISSUE_PREVIEW_SCRUM_BOARD = ActionType("Preview issue (Scrum Board)") { Unit }
+
+        @JvmField
+        val ISSUE_PREVIEW_NEXT_GEN_BOARD = ActionType("Preview issue (NextGen Board)") { Unit }
+
+        @JvmField
+        val ISSUE_PREVIEW_KANBAN_BOARD = ActionType("Preview issue (Kanban Board)") { Unit }
+
+        @JvmField
+        val ISSUE_PREVIEW_BACKLOG = ActionType("Preview issue (Backlog)") { Unit }
 
         @JvmField
         val ISSUE_EDIT_DESCRIPTION = ActionType("Edit Issue Description") { Unit }
@@ -145,6 +169,18 @@ class MeasureType {
         val CONFIGURE_BOARD = ActionType("Configure board") { Unit }
 
         @JvmField
+        val CONFIGURE_SCRUM_BOARD = ActionType("Configure Scrum board") { Unit }
+
+        @JvmField
+        val CONFIGURE_KANBAN_BOARD = ActionType("Configure Kanban board") { Unit }
+
+        @JvmField
+        val CONFIGURE_NEXT_GEN_BOARD = ActionType("Configure Scrum board") { Unit }
+
+        @JvmField
+        val CONFIGURE_BACKLOG = ActionType("Configure Backlog") { Unit }
+
+        @JvmField
         val CREATE_ISSUE_MODAL = ActionType("Create Issue Modal") { Unit }
 
         @JvmField
@@ -185,5 +221,17 @@ class MeasureType {
 
         @JvmField
         var TRANSITION_ISSUE_NAVIGATOR_VIEW = ActionType("Issue Navigator View (Transition)") { Unit }
+
+        @JvmField
+        var VIEW_SCRUM_BOARD = ActionType("View Scrum Board") { Unit }
+
+        @JvmField
+        var VIEW_KANBAN_BOARD = ActionType("View Kanban Board") { Unit }
+
+        @JvmField
+        var VIEW_NEXT_GEN_BOARD = ActionType("View NextGen Board") { Unit }
+
+        @JvmField
+        var VIEW_BACKLOG_BOARD = ActionType("View Backlog Board") { Unit }
     }
 }
