@@ -40,47 +40,25 @@ abstract class ScrumSprintPage(
             .first()
             .text
 
-        val firstIssue = columns[columnIndex]
+        val issues = columns[columnIndex]
             .findElements(By.cssSelector(".ghx-card-footer, .ghx-grabber"))
-            .first()
-        val targetIssue = columns[columnIndex]
-            .findElements(By.className("ghx-issuekey-number"))
-            .elementAt(1)
-
         Actions(driver)
-            .moveToElement(firstIssue)
-            .perform()
-        Thread.sleep(200)
-
-        Actions(driver)
-            .clickAndHold()
-            .perform()
-        Thread.sleep(150)
-
-        Actions(driver)
-            .moveToElement(targetIssue)
-            .perform()
-        Thread.sleep(100)
-
-        Actions(driver)
-            .release()
+            .dragAndDrop(issues.first(), issues.elementAt(1))
             .perform()
 
         driver.wait(
             ExpectedCondition {
                 columns()[columnIndex]
                     .findElements(issueSummaryLocator)
-                    .elementAt(0)
-                    .text != issueFirstText
+                    .elementAt(1)
+                    .text == issueFirstText
             })
     }
 
-    fun isCompleteButtonEnabled(): Boolean {
-        val completeButton = driver.findElements(completeButtonLocator)
-        if (completeButton.isNotEmpty()) {
-            return completeButton[0].isEnabled
-        }
-        return false
+    fun isCompleteButtonPresent(): Boolean {
+        return driver
+            .findElements(completeButtonLocator)
+            .isNotEmpty()
     }
 
     fun completeSprint() {

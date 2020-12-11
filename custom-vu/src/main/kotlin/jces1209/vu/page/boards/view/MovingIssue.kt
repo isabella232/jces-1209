@@ -43,34 +43,19 @@ class MovingIssue(
             .moveToElement(driver
                 .findElements(moveZoneLocator)
                 .first { it.isDisplayed })
-            .perform()
-
-        Thread.sleep(1000)
-        Actions(driver)
             .release()
             .perform()
 
+
         val issue = Issue(columnFromIndex, issueKey)
 
-        val conditionMessageVisibility = visibilityOfAllElementsLocatedBy(By.className("global-msg"))
         driver
             .wait(
                 or(
                     visibilityOfElementLocated(modalDialogLocator),
-                    movedIssueExpectedCondition(issue),
-                    conditionMessageVisibility
+                    movedIssueExpectedCondition(issue)
                 )
             )
-
-        if (!movedIssueExpectedCondition(issue).apply(driver)!!) {
-            val messages = conditionMessageVisibility.apply(driver)
-            if (messages == null || messages.isEmpty()) {
-                throw RuntimeException("Failed to move issue [${issue.key}]")
-            } else {
-                throw InterruptedException("The issue [${issue.key}] can't be moved. Error messages [$messages]")
-            }
-        }
-
         return issue
     }
 
@@ -79,7 +64,7 @@ class MovingIssue(
     }
 
     fun isContinueButtonEnabled(): Boolean {
-        return driver.findElements(transitionSubmitButtonLocator).any { it.isEnabled }
+        return driver.findElements(transitionSubmitButtonLocator).filter { it.isEnabled }.isNotEmpty()
     }
 
     private fun movedIssueExpectedCondition(issue: Issue): ExpectedCondition<Boolean> {

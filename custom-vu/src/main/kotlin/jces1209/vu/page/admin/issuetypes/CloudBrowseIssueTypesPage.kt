@@ -3,8 +3,6 @@ package jces1209.vu.page.admin.issuetypes
 import com.atlassian.performance.tools.jiraactions.api.WebJira
 import jces1209.vu.page.FalliblePage
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedCondition
-import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.ExpectedConditions.*
 import java.lang.Exception
 import java.time.Duration
@@ -17,10 +15,7 @@ class CloudBrowseIssueTypesPage(
         jira.driver,
         and(
             loadingPageExpectedCondition,
-            or(
-                presenceOfAllElementsLocatedBy(By.xpath("//div[@role='group']/a")),
-                presenceOfAllElementsLocatedBy(By.xpath("//*[@data-testid = 'NavigationItem']"))
-            ),
+            presenceOfAllElementsLocatedBy(By.xpath("//*[@data-testid = 'NavigationItem']")),
             presenceOfElementLocated(By.xpath("//*[. = 'Issue types']")),
             presenceOfElementLocated(By.className("search-entry"))
         )

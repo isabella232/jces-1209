@@ -48,14 +48,5 @@ class JiraTips(
                     .click()
                 driver.wait(ExpectedConditions.invisibilityOf(it))
             }
-        driver
-            .findElements(By.xpath("//img[contains(@alt, 'Jira Service Desk')]"))
-            .filter {it.isDisplayed}
-            .forEach{
-                it
-                    .findElement(By.xpath("//span[.='Ok, thanks']"))
-                    .click()
-                driver.wait(ExpectedConditions.invisibilityOf(it))
-            }
     }
 }

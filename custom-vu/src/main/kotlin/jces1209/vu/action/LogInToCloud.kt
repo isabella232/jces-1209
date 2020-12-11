@@ -17,7 +17,7 @@ class LogInToCloud(
     override fun run() {
         when (user.domain()) {
             "gmail.com", "atlassian.com" -> LogInWithGoogle(user, jira, meter).run()
-            else -> LogInWithCookie(jira, meter).run()
+            else -> LogInWithAtlassianId(user, jira, meter).run()
         }
     }
 

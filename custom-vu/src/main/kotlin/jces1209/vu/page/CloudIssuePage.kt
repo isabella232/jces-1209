@@ -1,10 +1,13 @@
 package jces1209.vu.page
+
 import com.atlassian.performance.tools.jiraactions.api.page.wait
 import jces1209.vu.page.contextoperation.ContextOperationIssue
 import jces1209.vu.wait
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import org.openqa.selenium.*
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfAllElements
 import org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated
@@ -72,7 +75,33 @@ class CloudIssuePage(
     }
 
     override fun changeAssignee(): CloudIssuePage {
-        return if (isBentoViewEnabled()) changeAssigneeBentoView() else changeAssigneeClassicView()
+        driver
+            .findElement(By.cssSelector("[data-test-id = 'issue.views.field.user.assignee']"))
+            .click();
+
+        var userList = driver
+            .wait(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@class,'fabric-user-picker__menu-list')]/*"))
+            )
+
+        if (userList.size == 1 && userList[0].text == "No options") {
+            logger.debug("No user options for Assignee")
+            throw InterruptedException("No options for Assignee")
+        }
+
+        val firstUser = driver
+            .wait(
+                ExpectedConditions.presenceOfElementLocated(By.id("react-select-assignee-option-0"))
+            )
+
+        var userName = firstUser.text.removeSuffix(" (Assign to me)")
+        firstUser.click()
+
+        driver.wait(
+            ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@data-test-id='issue.views.field.user.assignee']//*[.='$userName']"))
+        )
+
+        return this;
     }
 
     override fun contextOperation(): ContextOperationIssue {
@@ -106,6 +135,7 @@ class CloudIssuePage(
                 timeout = Duration.ofSeconds(7),
                 condition = ExpectedConditions.invisibilityOfElementLocated(transitionCancelLocator)
             )
+
         return this
     }
 
@@ -182,72 +212,6 @@ class CloudIssuePage(
             )
             .click()
         return this
-    }
-
-    fun changeAssigneeBentoView(): CloudIssuePage {
-        driver
-            .findElement(By.cssSelector("[data-test-id = 'issue.views.field.user.assignee']"))
-            .click();
-
-        var userList = driver
-            .wait(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[contains(@class,'fabric-user-picker__menu-list')]/*"))
-            )
-
-        if (userList.size == 1 && userList[0].text == "No options") {
-            logger.debug("No user options for Assignee")
-            throw InterruptedException("No options for Assignee")
-        }
-
-        val firstUser = driver
-            .wait(presenceOfElementLocated(By.id("react-select-assignee-option-0")))
-
-        var userName = firstUser.text.removeSuffix(" (Assign to me)")
-        firstUser.click()
-        driver.wait(presenceOfElementLocated(By.xpath("//*[@data-test-id='issue.views.field.user.assignee']//*[.='$userName']")))
-        return this;
-    }
-
-    private fun changeAssigneeClassicView(): CloudIssuePage {
-        driver
-            .wait(elementToBeClickable(By.xpath("//span[@id='assignee-val' and not (@inactive)]")))
-            .click()
-        driver
-            .wait(visibilityOfElementLocated(By.xpath("//span[@id='assignee-val'][contains(@class,'active')]")))
-        driver
-            .wait(visibilityOfElementLocated(By.xpath("//form[@id='assignee-form']//span[contains(@class, 'drop-menu')]")))
-            .click()
-
-        val userList = try {
-            driver.wait(presenceOfAllElementsLocatedBy(By.xpath("//ul[@id='suggestions']//a")))
-        } catch (exc: Exception) {
-            logger.debug("No user options for Assignee")
-            throw InterruptedException("No options for Assignee")
-        }
-
-        val firstUser = driver.findElement(By.xpath("//ul[@id='suggestions']/li[1]/a"))
-        var firstUserName = firstUser.getAttribute("text")
-        if (userList.size == 1 && firstUserName == "Automatic") {
-            firstUserName = "Unassigned"
-        }
-
-        firstUser.click()
-        driver
-            .wait(elementToBeClickable(By.xpath("//button[@type='submit']")))
-            .click()
-        driver
-            .wait(presenceOfElementLocated(By.xpath("//*[text()[contains(.,'$firstUserName')]]")))
-        return this;
-    }
-
-    private fun isBentoViewEnabled(): Boolean {
-        try {
-            driver
-                .wait(presenceOfElementLocated(bentoSummary))
-        } catch (exc: Exception) {
-            return false
-        }
-        return true
     }
 
     private fun isCommentingClassic(): Boolean = driver
