@@ -26,7 +26,7 @@ class ViewScrumBoard(
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
-        val board = getBoard(scrumBoardsMemory as SeededMemory<BoardPage>) //scrumBoardsMemory.recall()
+        val board = getBoard(scrumBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return

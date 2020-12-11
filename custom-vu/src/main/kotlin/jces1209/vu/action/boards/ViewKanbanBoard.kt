@@ -26,7 +26,7 @@ class ViewKanbanBoard(
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
-        val board = getBoard(kanbanBoardsMemory as SeededMemory<BoardPage>)//kanbanBoardsMemory.recall()
+        val board = getBoard(kanbanBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
