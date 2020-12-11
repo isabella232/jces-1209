@@ -117,7 +117,7 @@ class ScenarioSimilarities(
         viewScrumBoard = ViewScrumBoard(
             driver = jira.driver,
             measure = measure,
-            boardsMemory = boardsMemory.all,
+            scrumBoardsMemory = boardsMemory.sprint,
             issueKeyMemory = issueKeyMemory,
             viewIssueProbability = 0.50f,
             configureBoardProbability = 0.05f,
@@ -126,17 +126,17 @@ class ScenarioSimilarities(
         viewKanbanBoard = ViewKanbanBoard(
             driver = jira.driver,
             measure = measure,
-            boardsMemory = boardsMemory.all,
+            kanbanBoardsMemory = boardsMemory.kanban,
             issueKeyMemory = issueKeyMemory,
             viewIssueProbability = 0.50f,
             configureBoardProbability = 0.05f,
             contextOperationProbability = 0.05f,
-            changeIssueStatusProbability = 0.10f
+            changeIssueStatusProbability = 0.40f
         ),
         viewNextGenBoard = ViewNextGenBoard(
             driver = jira.driver,
             measure = measure,
-            boardsMemory = boardsMemory.all,
+            nextGenBoardsMemory = boardsMemory.nextGen,
             issueKeyMemory = issueKeyMemory,
             viewIssueProbability = 0.50f,
             configureBoardProbability = 0.05f,
@@ -145,7 +145,7 @@ class ScenarioSimilarities(
         viewBacklog = ViewBacklog(
             driver = jira.driver,
             measure = measure,
-            boardsMemory = boardsMemory.all,
+            backlogBoardsMemory = boardsMemory.backlog,
             issueKeyMemory = issueKeyMemory,
             viewIssueProbability = 0.50f,
             configureBoardProbability = 0.05f,
@@ -272,7 +272,7 @@ class ScenarioSimilarities(
             browseBoards to 5,
             viewScrumBoard to 30,
             viewKanbanBoard to 30,
-            viewNextGenBoard to 0,
+            viewNextGenBoard to 30,
             viewBacklog to 30,
             workOnDashboard to 5,
             workOnSprint to 0, // 3 if we can mutate data

@@ -7,12 +7,13 @@ import jces1209.vu.MeasureType
 import jces1209.vu.MeasureType.Companion.VIEW_SCRUM_BOARD
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.boards.view.BoardPage
+import jces1209.vu.page.boards.view.ScrumSprintPage
 import org.openqa.selenium.WebDriver
 
 class ViewScrumBoard(
     private val driver: WebDriver,
     private val measure: Measure,
-    private val boardsMemory: SeededMemory<BoardPage>,
+    private val scrumBoardsMemory: SeededMemory<ScrumSprintPage>,
     private val issueKeyMemory: IssueKeyMemory,
     private val viewIssueProbability: Float,
     private val configureBoardProbability: Float,
@@ -20,19 +21,16 @@ class ViewScrumBoard(
 ) : ViewBoard(
     driver = driver,
     measure = measure,
-    boardsMemory = boardsMemory,
     issueKeyMemory = issueKeyMemory,
-    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
-        val board = getBoard()
+        val board = getBoard(scrumBoardsMemory as SeededMemory<BoardPage>) //scrumBoardsMemory.recall()
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
         }
-        validateBoardByType(board, "Sprint")
 
         val boardContent = viewBoard(VIEW_SCRUM_BOARD, board)
 
@@ -53,4 +51,3 @@ class ViewScrumBoard(
         }
     }
 }
-

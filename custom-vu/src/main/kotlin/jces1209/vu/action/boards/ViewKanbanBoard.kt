@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver
 class ViewKanbanBoard(
     private val driver: WebDriver,
     private val measure: Measure,
-    private val boardsMemory: SeededMemory<BoardPage>,
+    private val kanbanBoardsMemory: SeededMemory<KanbanBoardPage>,
     private val issueKeyMemory: IssueKeyMemory,
     private val viewIssueProbability: Float,
     private val configureBoardProbability: Float,
@@ -21,19 +21,16 @@ class ViewKanbanBoard(
 ) : ViewBoard(
     driver = driver,
     measure = measure,
-    boardsMemory = boardsMemory,
     issueKeyMemory = issueKeyMemory,
-    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
-        val board = getBoard()
+        val board = getBoard(kanbanBoardsMemory as SeededMemory<BoardPage>)//kanbanBoardsMemory.recall()
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
         }
-        validateBoardByType(board, "Kanban")
 
         val boardContent = viewBoard(MeasureType.VIEW_KANBAN_BOARD, board)
 

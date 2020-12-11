@@ -23,9 +23,7 @@ import org.openqa.selenium.WebDriver
 abstract class ViewBoard(
     private val driver: WebDriver,
     private val measure: Measure,
-    private val boardsMemory: SeededMemory<BoardPage>,
     private val issueKeyMemory: IssueKeyMemory,
-    private val viewIssueProbability: Float,
     private val configureBoardProbability: Float,
     private val contextOperationProbability: Float
 ) {
@@ -78,31 +76,23 @@ abstract class ViewBoard(
         }
     }
 
-    protected fun validateBoardByType(board: BoardPage, expectedBoardType: String): String {
-        val boardType = board.getTypeLabel()
-        if (!boardType.equals(expectedBoardType)) {
-            throw InterruptedException("$expectedBoardType board wasn't found, skipping...")
-        }
-        return boardType
-    }
-
-    protected fun getBoard(): BoardPage? {
+    protected fun getBoard(boardsMemory: SeededMemory<BoardPage>): BoardPage? {
         val currentUrl = driver.currentUrl
         val boardsManager = BoardsFrequencyManager()
         val boardObject = boardsManager.getBoardByFrequency()
-        if (boardObject != null && currentUrl.contains("atlassian.net")) {
+        return if (boardObject != null && currentUrl.contains("atlassian.net")) {
             val boardPage = with(boardObject.boardType) {
                 when {
-                   contains("backlog") -> CloudScrumBacklogPage(driver, boardObject.uri)
+                    contains("backlog") -> CloudScrumBacklogPage(driver, boardObject.uri)
                     contains("sprint") -> CloudScrumSprintPage(driver, boardObject.uri)
                     contains("kanban") ->  CloudKanbanBoardPage(driver, boardObject.uri)
                     contains("next") ->  CloudNextGenBoardPage(driver, boardObject.uri)
-                    else -> logger.debug("I cannot parse the board")
+                    else -> logger.debug("I cannot parse the board. Reading board from boards memory.")
                 }
             }
-            return boardPage as BoardPage
+            boardPage as BoardPage
         } else {
-                return boardsMemory.recall()
-            }
+            boardsMemory.recall()
         }
     }
+}

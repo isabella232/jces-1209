@@ -6,12 +6,13 @@ import jces1209.vu.Measure
 import jces1209.vu.MeasureType
 import jces1209.vu.memory.SeededMemory
 import jces1209.vu.page.boards.view.BoardPage
+import jces1209.vu.page.boards.view.ScrumBacklogPage
 import org.openqa.selenium.WebDriver
 
 class ViewBacklog(
     private val driver: WebDriver,
     private val measure: Measure,
-    private val boardsMemory: SeededMemory<BoardPage>,
+    private val backlogBoardsMemory: SeededMemory<ScrumBacklogPage>,
     private val issueKeyMemory: IssueKeyMemory,
     private val viewIssueProbability: Float,
     private val configureBoardProbability: Float,
@@ -19,19 +20,16 @@ class ViewBacklog(
 ) : ViewBoard(
     driver = driver,
     measure = measure,
-    boardsMemory = boardsMemory,
     issueKeyMemory = issueKeyMemory,
-    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
-        val board = getBoard()
+        val board = getBoard(backlogBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
             logger.debug("I cannot recall board, skipping...")
             return
         }
-        validateBoardByType(board, "Backlog")
 
         val boardContent = viewBoard(MeasureType.VIEW_BACKLOG_BOARD, board)
 
