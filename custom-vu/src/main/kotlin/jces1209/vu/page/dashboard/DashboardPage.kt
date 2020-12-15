@@ -5,7 +5,6 @@ import jces1209.vu.page.FalliblePage
 import jces1209.vu.wait
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.ExpectedConditions.*
 import java.time.Duration
 
@@ -85,6 +84,14 @@ abstract class DashboardPage(
     }
 
     fun createGadget(projectName: String) {
+        val initialChartsCount = if (
+            driver.wait(presenceOfAllElementsLocatedBy(By.className("add-gadget-link")))
+                .size == 3
+            ) 0 else {
+            driver.wait(presenceOfAllElementsLocatedBy(By.className("bubble-chart-component-plot")))
+                .size
+        }
+
         driver
             .wait(elementToBeClickable(addGadgetLocator))
             .click()
@@ -98,21 +105,18 @@ abstract class DashboardPage(
             .first { it.isDisplayed }
             .click()
         driver
-            .wait(ExpectedConditions.invisibilityOfElementLocated(By.id("gadget-dialog")))
+            .wait(invisibilityOfElementLocated(By.id("gadget-dialog")))
 
-        val chartsNumber = driver
-            .findElements(By.className("bubble-chart-component-plot"))
-            .size
         driver
-            .findElement(By.cssSelector("[id$='project-filter-picker']"))
+            .wait(elementToBeClickable(By.cssSelector("[id$='project-filter-picker']")))
             .sendKeys(projectName)
         driver
             .wait(visibilityOfElementLocated(By.className("aui-list-item-link")))
             .click()
         driver
-            .findElement(By.cssSelector(".button.submit"))
+            .wait(elementToBeClickable(By.cssSelector(".button.submit")))
             .click()
         driver
-            .wait(numberOfElementsToBeMoreThan(By.cssSelector(".bubble-chart-component-plot, .aui-message-error"), chartsNumber))
+            .wait(numberOfElementsToBeMoreThan(By.cssSelector(".bubble-chart-component-plot, .aui-message-error"), initialChartsCount))
     }
 }

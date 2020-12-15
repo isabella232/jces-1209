@@ -18,6 +18,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion")
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
     implementation("org.glassfish:javax.json:1.1")
+    implementation("com.google.code.gson:gson:2.8.0")
     implementation(kotlin("stdlib-jdk8"))
 
     testCompile("junit:junit:4.12")
@@ -39,7 +40,7 @@ configurations.all {
         eachDependency {
             when (requested.module.toString()) {
                 "commons-codec:commons-codec" -> useVersion("1.10")
-                "com.google.code.gson:gson" -> useVersion("2.8.2")
+                "com.google.code.gson:gson" -> useVersion("2.8.0")
                 "com.google.guava:guava" -> useVersion("25.0-jre")
                 "org.slf4j:slf4j-api" -> useVersion("1.8.0-alpha2")
             }

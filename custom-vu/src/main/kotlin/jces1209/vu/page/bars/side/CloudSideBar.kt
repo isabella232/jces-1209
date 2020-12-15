@@ -75,7 +75,7 @@ class CloudSideBar(
     }
 
     private fun getNavigatorItemLocator(itemName: String): By {
-        return By.xpath("//a[@data-testid='NavigationItem' and div/div[text()='$itemName']]")
+        return By.xpath("//div[@role='group']//span[contains(text(), '$itemName')]/ancestor::a")
     }
 
     private val loadingLocator = By.cssSelector(".details-layout > .loading")
