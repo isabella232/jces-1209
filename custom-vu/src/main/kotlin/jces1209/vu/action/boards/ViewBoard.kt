@@ -24,6 +24,11 @@ abstract class ViewBoard(
     private val driver: WebDriver,
     private val measure: Measure,
     private val issueKeyMemory: IssueKeyMemory,
+    private val viewBoardMeasureType: ActionType<Unit>,
+    private val issuePreviewMeasureType: ActionType<Unit>,
+    private val contextOperationMeasureType: ActionType<Unit>,
+    private val configureBoardMeasureType: ActionType<Unit>,
+    private val viewIssueProbability: Float,
     private val configureBoardProbability: Float,
     private val contextOperationProbability: Float
 ) {
@@ -73,6 +78,24 @@ abstract class ViewBoard(
                     .configureBoard()
                     .waitForLoadPage()
             }
+        }
+    }
+
+    protected fun viewBoardContent(board: BoardPage) {
+        val boardContent = viewBoard(viewBoardMeasureType, board)
+        if (null != boardContent) {
+            measure.roll(viewIssueProbability) {
+                if (boardContent.getIssueKeys().isEmpty()) {
+                    logger.debug("It requires some issues on board to test preview issue")
+                } else {
+                    repeat(2) {
+                        previewIssue(issuePreviewMeasureType, board)
+                    }
+                    contextOperation(contextOperationMeasureType)
+                }
+            }
+            jiraTips.closeTips()
+            configureBoard(configureBoardMeasureType, board)
         }
     }
 

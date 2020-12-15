@@ -21,32 +21,21 @@ class ViewNextGenBoard(
     driver = driver,
     measure = measure,
     issueKeyMemory = issueKeyMemory,
+    viewBoardMeasureType = MeasureType.VIEW_NEXT_GEN_BOARD,
+    issuePreviewMeasureType = MeasureType.ISSUE_PREVIEW_NEXT_GEN_BOARD,
+    contextOperationMeasureType = MeasureType.CONTEXT_OPERATION_NEXT_GEN_BOARD,
+    configureBoardMeasureType = MeasureType.CONFIGURE_NEXT_GEN_BOARD,
+    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
         val board = getBoard(nextGenBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
-            logger.debug("I cannot recall board, skipping...")
+            logger.debug("I cannot recall a NextGen board, skipping...")
             return
         }
 
-        val boardContent = viewBoard(MeasureType.VIEW_NEXT_GEN_BOARD, board)
-
-        if (null != boardContent) {
-            measure.roll(viewIssueProbability) {
-                if (boardContent.getIssueKeys().isEmpty()) {
-                    logger.debug("It requires some issues on board to test preview issue")
-                } else {
-                    repeat(2) {
-                        previewIssue(MeasureType.ISSUE_PREVIEW_NEXT_GEN_BOARD, board)
-                    }
-                    contextOperation(MeasureType.CONTEXT_OPERATION_NEXT_GEN_BOARD)
-                }
-            }
-
-            jiraTips.closeTips()
-            configureBoard(MeasureType.CONFIGURE_NEXT_GEN_BOARD, board)
-        }
+        viewBoardContent(board)
     }
 }

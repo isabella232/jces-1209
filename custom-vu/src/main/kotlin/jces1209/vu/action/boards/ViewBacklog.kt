@@ -21,32 +21,21 @@ class ViewBacklog(
     driver = driver,
     measure = measure,
     issueKeyMemory = issueKeyMemory,
+    viewBoardMeasureType = MeasureType.VIEW_BACKLOG_BOARD,
+    issuePreviewMeasureType = MeasureType.ISSUE_PREVIEW_BACKLOG,
+    contextOperationMeasureType = MeasureType.CONTEXT_OPERATION_BACKLOG,
+    configureBoardMeasureType = MeasureType.CONFIGURE_BACKLOG,
+    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
         val board = getBoard(backlogBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
-            logger.debug("I cannot recall board, skipping...")
+            logger.debug("I cannot recall Backlog, skipping...")
             return
         }
 
-        val boardContent = viewBoard(MeasureType.VIEW_BACKLOG_BOARD, board)
-
-        if (null != boardContent) {
-            measure.roll(viewIssueProbability) {
-                if (boardContent.getIssueKeys().isEmpty()) {
-                    logger.debug("It requires some issues on board to test preview issue")
-                } else {
-                    repeat(2) {
-                        previewIssue(MeasureType.ISSUE_PREVIEW_BACKLOG, board)
-                    }
-                    contextOperation(MeasureType.CONTEXT_OPERATION_BACKLOG)
-                }
-            }
-
-            jiraTips.closeTips()
-            configureBoard(MeasureType.CONFIGURE_BACKLOG, board)
-        }
+        viewBoardContent(board)
     }
 }

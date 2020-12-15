@@ -22,35 +22,25 @@ class ViewKanbanBoard(
     driver = driver,
     measure = measure,
     issueKeyMemory = issueKeyMemory,
+    viewBoardMeasureType = MeasureType.VIEW_KANBAN_BOARD,
+    issuePreviewMeasureType = MeasureType.ISSUE_PREVIEW_KANBAN_BOARD,
+    contextOperationMeasureType = MeasureType.CONTEXT_OPERATION_KANBAN_BOARD,
+    configureBoardMeasureType = MeasureType.CONFIGURE_KANBAN_BOARD,
+    viewIssueProbability = viewIssueProbability,
     configureBoardProbability = configureBoardProbability,
     contextOperationProbability = contextOperationProbability), Action {
 
     override fun run() {
         val board = getBoard(kanbanBoardsMemory as SeededMemory<BoardPage>)
         if (board == null) {
-            logger.debug("I cannot recall board, skipping...")
+            logger.debug("I cannot recall a Kanban board, skipping...")
             return
         }
 
-        val boardContent = viewBoard(MeasureType.VIEW_KANBAN_BOARD, board)
+        viewBoardContent(board)
 
-        if (null != boardContent) {
-            measure.roll(viewIssueProbability) {
-                if (boardContent.getIssueKeys().isEmpty()) {
-                    logger.debug("It requires some issues on board to test preview issue")
-                } else {
-                    repeat(2) {
-                        previewIssue(MeasureType.ISSUE_PREVIEW_KANBAN_BOARD, board)
-                    }
-                    contextOperation(MeasureType.CONTEXT_OPERATION_KANBAN_BOARD)
-                }
-            }
-
-            jiraTips.closeTips()
-            configureBoard(MeasureType.CONFIGURE_KANBAN_BOARD, board)
-            repeat(2) {
-                changeIssueStatus(board)
-            }
+        repeat(2) {
+            changeIssueStatus(board)
         }
     }
 
