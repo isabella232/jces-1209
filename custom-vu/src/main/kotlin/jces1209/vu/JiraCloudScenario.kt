@@ -16,12 +16,12 @@ import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.admin.customfields.CloudBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.CloudBrowseFieldScreensPage
 import jces1209.vu.page.admin.issuetypes.CloudBrowseIssueTypesPage
+import jces1209.vu.page.admin.manageprojectpermissions.CloudManageProjectPermissionsPage
 import jces1209.vu.page.admin.manageprojects.CloudManageProjectsPage
 import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.CloudBrowseWorkflowsPage
 import jces1209.vu.page.bars.side.CloudSideBar
 import jces1209.vu.page.bars.topBar.cloud.CloudTopBar
-import jces1209.vu.page.bars.topBar.dc.DcTopBar
 import jces1209.vu.page.boards.browse.cloud.CloudBrowseBoardsPage
 import jces1209.vu.page.customizecolumns.CloudColumnsEditor
 import jces1209.vu.page.dashboard.cloud.CloudDashboardPage
@@ -68,6 +68,7 @@ class JiraCloudScenario : Scenario {
             sprintApi = CloudSprintApi(jira.base),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
+            manageProjectPermissionsPage = CloudManageProjectPermissionsPage(jira),
             createIssue = CreateAnIssue(
                 jira = jira,
                 meter = meter,

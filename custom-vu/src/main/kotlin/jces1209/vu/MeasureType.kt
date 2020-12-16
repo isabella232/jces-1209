@@ -185,5 +185,8 @@ class MeasureType {
 
         @JvmField
         var TRANSITION_ISSUE_NAVIGATOR_VIEW = ActionType("Issue Navigator View (Transition)") { Unit }
+
+        @JvmField
+        var MANAGE_PROJECT_PERMISSIONS = ActionType("Manage Project Permissions") {Unit}
     }
 }

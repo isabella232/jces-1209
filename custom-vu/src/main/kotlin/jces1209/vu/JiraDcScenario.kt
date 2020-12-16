@@ -16,6 +16,7 @@ import jces1209.vu.page.DcIssuePage
 import jces1209.vu.page.admin.customfields.DcBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.DcBrowseFieldScreensPage
 import jces1209.vu.page.admin.issuetypes.DcBrowseIssueTypesPage
+import jces1209.vu.page.admin.manageprojectpermissions.DcManageProjectPermissionsPage
 import jces1209.vu.page.admin.manageprojects.DcManageProjectsPage
 import jces1209.vu.page.admin.projectroles.DcBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.DcBrowseWorkflowsPage
@@ -64,6 +65,7 @@ class JiraDcScenario : Scenario {
             sprintApi = DcSprintApi(jira.base),
             manageProjectsPage = DcManageProjectsPage(jira),
             projectNavigatorPage = DcProjectNavigatorPage(jira),
+            manageProjectPermissionsPage = DcManageProjectPermissionsPage(jira),
             createIssue = CreateAnIssue(
                 jira = jira,
                 meter = meter,
