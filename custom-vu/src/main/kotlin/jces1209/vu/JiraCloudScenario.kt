@@ -1,5 +1,6 @@
 package jces1209.vu
 
+import CloudTopBar
 import com.atlassian.performance.tools.jiraactions.api.SeededRandom
 import com.atlassian.performance.tools.jiraactions.api.WebJira
 import com.atlassian.performance.tools.jiraactions.api.action.Action
@@ -9,16 +10,9 @@ import com.atlassian.performance.tools.jiraactions.api.scenario.Scenario
 import jces1209.vu.action.BrowseCloudProjects
 import jces1209.vu.action.CreateAnIssue
 import jces1209.vu.action.LogInWithAtlassianId
-<<<<<<< HEAD
-import jces1209.vu.page.issuenavigator.CloudIssueNavigator
-=======
 import jces1209.vu.api.dashboard.CloudDashboardApi
 import jces1209.vu.api.issue.CloudIssueApi
-<<<<<<< HEAD
->>>>>>> 444dcad... JCSP-553: dashboard clean up (#101)
-=======
 import jces1209.vu.api.sprint.CloudSprintApi
->>>>>>> dc9f1a4... JSPC-533: sprints clean up (#102)
 import jces1209.vu.page.CloudIssuePage
 import jces1209.vu.page.admin.customfields.CloudBrowseCustomFieldsPage
 import jces1209.vu.page.admin.fieldscreen.CloudBrowseFieldScreensPage
@@ -27,7 +21,6 @@ import jces1209.vu.page.admin.manageprojects.CloudManageProjectsPage
 import jces1209.vu.page.admin.projectroles.CloudBrowseProjectRolesPage
 import jces1209.vu.page.admin.workflow.browse.CloudBrowseWorkflowsPage
 import jces1209.vu.page.bars.side.CloudSideBar
-import jces1209.vu.page.bars.topBar.cloud.CloudTopBar
 import jces1209.vu.page.bars.topBar.dc.DcTopBar
 import jces1209.vu.page.boards.browse.cloud.CloudBrowseBoardsPage
 import jces1209.vu.page.customizecolumns.CloudColumnsEditor
@@ -64,11 +57,6 @@ class JiraCloudScenario : Scenario {
 
         val similarities = ScenarioSimilarities(jira, seededRandom, meter)
         return similarities.assembleScenario(
-            createIssue = CreateAnIssue(
-                jira = jira,
-                meter = meter,
-                createIssueButtons = listOf(By.id("createGlobalItem"), By.id("createGlobalItemIconButton"))
-            ),
             issuePage = CloudIssuePage(jira.driver),
             filtersPage = CloudFiltersPage(jira, jira.driver),
             browseFieldScreensPage = CloudBrowseFieldScreensPage(jira),
@@ -80,6 +68,13 @@ class JiraCloudScenario : Scenario {
             sprintApi = CloudSprintApi(jira.base),
             manageProjectsPage = CloudManageProjectsPage(jira),
             projectNavigatorPage = CloudProjectNavigatorPage(jira),
+            createIssue = CreateAnIssue(
+                jira = jira,
+                meter = meter,
+                projectMemory = similarities.projectMemory,
+                issueApi = CloudIssueApi(jira.base),
+                createIssueButtons = listOf(By.id("createGlobalItem"), By.id("createGlobalItemIconButton"))
+            ),
             browseProjects = BrowseCloudProjects(
                 jira = jira,
                 meter = meter,
