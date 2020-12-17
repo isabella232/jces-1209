@@ -21,14 +21,16 @@ import com.atlassian.performance.tools.io.api.dereference
 import com.atlassian.performance.tools.io.api.ensureDirectory
 import java.nio.file.Path
 import java.time.Duration
-import java.util.*
+import java.util.UUID
+import java.util.Properties
 import java.util.concurrent.CompletableFuture
 
 class AwsVus(
     duration: Duration,
     private val region: Regions,
     private val vpcId: String?,
-    private val subnetId: String?
+    private val subnetId: String?,
+    private val configProperties: Properties?
 ) : VirtualUsersSource {
 
     private val lifespan = Duration.ofMinutes(10) + duration
@@ -61,7 +63,7 @@ class AwsVus(
             ).provision()
         }
         val provisioned = MulticastVirtualUsersFormula.Builder(
-                nodes = 6,
+                nodes = (configProperties?.getProperty("setting.nodes"))?.toInt() ?: 6,
                 shadowJar = dereference("jpt.virtual-users.shadow-jar")
             )
             .browser(Chromium77())

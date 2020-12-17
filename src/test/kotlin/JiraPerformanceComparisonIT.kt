@@ -98,7 +98,7 @@ class JiraPerformanceComparisonIT {
         val cohort = properties.cohort
         val resultsTarget = workspace.directory.resolve("vu-results").resolve(cohort)
         val provisioned = quality
-            .provide()
+            .provide(properties.trafficConfigObj)
             .obtainVus(resultsTarget, workspace.directory)
         val virtualUsers = provisioned.virtualUsers
         return try {
@@ -122,7 +122,7 @@ class JiraPerformanceComparisonIT {
             userName = properties.userName,
             password = properties.userPassword
         )
-        val behavior = quality.behave(scenario)
+        val behavior = quality.behave(scenario,properties.trafficConfigObj)
             .let { VirtualUserBehavior.Builder(it) }
             .build()
         return VirtualUserOptions(target, behavior)
